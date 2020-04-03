@@ -17,6 +17,13 @@ import { appRoutes } from './routes';
 import { ConnectionComponent } from './connection/connection-list/connection.component';
 import { ConnectionCardComponent } from './connection/connection-card/connection-card.component';
 import { ConnectionProfileComponent } from './connection/connection-profile/connection-profile.component';
+import { SideNavComponent } from './sidenav/side-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 
 
 export function tokenGetter(){
@@ -32,7 +39,8 @@ export function tokenGetter(){
       ResearchesComponent,
       ConnectionComponent,
       ConnectionCardComponent,
-      ConnectionProfileComponent
+      ConnectionProfileComponent,
+      SideNavComponent,
    ],
    imports: [
       BrowserModule,
@@ -47,7 +55,14 @@ export function tokenGetter(){
             whitelistedDomains: ['localhost:5000'],
             blacklistedRoutes: ['localhost:5000/api/auth']
          }
-      })
+      }),
+      LayoutModule,
+      MatToolbarModule,
+      MatButtonModule,
+      MatSidenavModule,
+      MatIconModule,
+      MatListModule
+
    ],
    providers: [
       AuthService

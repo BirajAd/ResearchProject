@@ -1,3 +1,27 @@
-<p>
-  {{user.firstName}}
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <div class="card">
+        <img class="card-img-top img-thumbnail" src="{{user?.photoPath}}" alt="{{user?.firstName}}">
+        <div class="card-body">
+          <div>
+            <strong>Interest: </strong>
+            <p>{{user?.bio}}</p>
+          </div>
+
+          <div class="card-footer">
+            <div class="btn-group d-flex">
+                <button class="btn btn-primary w-15%">Connect</button>
+                <button class="btn btn-success w-15%">Message</button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-8">
+
+    </div>
+  </div>
+</div>
+

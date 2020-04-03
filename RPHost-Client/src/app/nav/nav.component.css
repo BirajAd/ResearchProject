@@ -1,8 +1,21 @@
 .container-fluid {
-    padding: 0 2%;
-    width: 95%;
+    padding: 8px 0%;
+    width: 100%;
+    margin-top: 0%;
+    border-bottom: 1.5px solid rgb(3, 26, 75);
+    border-top: 1px solid purple;
+}
+
+.container-fluid a{
+    margin-left: 5%;
 }
 
 .dropdown-toggle, .dropdown-item {
     cursor: pointer;
+    font-weight: bold;
 }
+
+.dropdown{
+    margin-right: 3%;
+}
+

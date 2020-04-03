@@ -1,0 +1,82 @@
+.sidenav-container{
+  position: static;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;  
+}
+
+.leftside{
+  margin-top: 4%;
+  margin-left: 4%;
+  background: white;
+}
+
+.rightside{
+  margin-top: 6%;
+  margin-right: 5.5%;
+  background: white;
+  text-align: left;
+}
+
+mat-nav-list{
+  position: fixed;
+}
+
+mat-nav-list a:hover{
+  background-color: rgb(231, 241, 237);
+  height: 40px;
+}
+
+
+mat-nav-list a{
+  color: black;
+  font-size: medium;
+  border-radius: 5px;
+  background-color: white;
+  height: 40%;
+}
+
+p{
+  color: black;
+}
+
+/* .sidenav-container {
+  padding: 0 4%;
+  width: 100%;
+}
+
+.liste{
+  height: 10%;
+}
+
+.sidenav {
+  width: 140px;
+  margin-top: 5%;
+  background: white;
+}
+
+mat-nav-list a:hover{
+  background-color: rgb(231, 241, 237);
+  border-radius: 5px;
+}
+
+.remember{
+  margin-left: 4%;
+  margin-top: 5px;
+}
+
+.remember a{
+  font-size: smaller;
+}
+
+.sidenav .mat-toolbar {
+  background: white;
+  height: 50%;
+}
+
+.mat-toolbar.mat-primary {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+} */
