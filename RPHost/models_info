@@ -1,0 +1,71 @@
+As of April 9
+
+Entities:
+1.	User:
+All Data:
+a.	Id
+b.	Username
+c.	FirstName
+d.	LastName
+e.	PasswordHash
+f.	PasswordSalt
+g.	Gender
+h.	DateOfBirth
+i.	KnownAs
+j.	Created
+k.	LastActive
+l.	Bio
+m.	FieldOfInterests
+n.	City
+o.	Country
+p.	Institute(to be added)
+
+
+Publica Data: 
+-	UserForListDto (information when all users displayed):
+o	Id
+o	Username
+o	FirstName
+o	LastName
+o	Gender
+o	Age
+o	KnownAs
+o	Created
+o	LastActive
+o	Country
+o	PhotoPath
+o	Institute (to be added)
+
+-	UserForDetailedDto (Information when individual user displayed)
+o	Id
+o	Username
+o	FirstName
+o	LastName
+o	Gender
+o	Age
+o	KnownAs
+o	Created
+o	LastActive
+o	Bio
+o	FieldOfInterests
+o	City
+o	Country
+o	PhotoPath
+o	Institute (to be added)
+
+2.	Photo:
+ 		All Data:
+-	Id
+-	Path
+-	Description
+-	DateAdded
+-	IsMain
+-	UserId
+Public Data:
+-	Id
+-	Path
+-	Description
+-	DateAdded
+-	IsMain
+
+
