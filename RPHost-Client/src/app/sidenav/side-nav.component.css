@@ -7,21 +7,16 @@
 }
 
 .leftside{
-  margin-top: 4%;
+  margin-top: 73px;
   margin-left: 4%;
   background: white;
 }
 
-.rightside{
-  margin-top: 6%;
-  margin-right: 5.5%;
-  background: white;
-  text-align: left;
-}
 
-mat-nav-list{
+
+/* mat-nav-list{
   position: fixed;
-}
+} */
 
 mat-nav-list a:hover{
   background-color: rgb(231, 241, 237);

@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
+import { UserService } from 'src/app/_services/user.service';
 import { AlertifyService } from '../_services/alertify.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { User } from '../_models/user';
 
 @Component({
   selector: 'app-nav',
@@ -9,11 +11,23 @@ import { Router } from '@angular/router';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
+  user: User;
   model: any = {};
 
-  constructor(public authService: AuthService, private alertify: AlertifyService, private router: Router) { }
+  // tslint:disable-next-line: max-line-length
+  constructor(private userService: UserService, public authService: AuthService, private alertify: AlertifyService,
+              private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.loadUser();
+  }
+
+  loadUser() {
+    this.userService.getUser(this.authService.decodedToken.nameid).subscribe((user: User) => {
+        this.user = user;
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 
   login() {

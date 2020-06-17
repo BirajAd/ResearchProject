@@ -17,6 +17,7 @@ namespace RPHost.Models
         public DateTime Created { get; set; }
         public DateTime LastActive { get; set; }
         public string Bio { get; set; }
+        public string Institute { get; set; }
         public string FieldOfInterests { get; set; }
         public string City { get; set; }
         public string Country { get; set; }

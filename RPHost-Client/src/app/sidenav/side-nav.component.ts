@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'app-side-nav',
@@ -6,7 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./side-nav.component.css']
 })
 export class SideNavComponent {
+  
+  constructor(public authService: AuthService) { }
 
   shouldRun = [/(^|\.)plnkr\.co$/, /(^|\.)stackblitz\.io$/].some(h => h.test(window.location.host));
 
+  loggedIn() {
+    return this.authService.loggedIn();
+  }
 }

@@ -18,6 +18,7 @@ namespace RPHost.Dtos
         public DateTime LastActive { get; set; }
         //Extra info from here
         public string Bio { get; set; }
+        public string Institute { get; set; }
         public string FieldOfInterests { get; set; }
         public string City { get; set; }
         //till here

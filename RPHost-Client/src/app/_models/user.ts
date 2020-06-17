@@ -9,10 +9,11 @@ export interface User {
     age: number;
     created: Date;
     lastActive: Date;
-    country: string; 
+    country: string;
     photoPath: string; //
     city?: string; //
     bio?: string; //
-    fieldOfInterest?: string; //
+    fieldOfInterests?: string; //
+    institute?: string;
     photos?: Photo[]; //
 }
