@@ -19,16 +19,16 @@ export class NavComponent implements OnInit {
               private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.loadUser();
+    // this.loadUser();
   }
 
-  loadUser() {
-    this.userService.getUser(this.authService.decodedToken.nameid).subscribe((user: User) => {
-        this.user = user;
-    }, error => {
-      this.alertify.error(error);
-    });
-  }
+  // loadUser() {
+  //   this.userService.getUser(this.authService.decodedToken.nameid).subscribe((user: User) => {
+  //       this.user = user;
+  //   }, error => {
+  //     this.alertify.error(error);
+  //   });
+  // }
 
   login() {
     this.authService.login(this.model).subscribe(next => {
@@ -46,6 +46,9 @@ export class NavComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.authService.decodedToken = null;
+    this.authService.currentUser = null;
     this.alertify.message('logged out.');
     this.router.navigate(['/home']);
   }

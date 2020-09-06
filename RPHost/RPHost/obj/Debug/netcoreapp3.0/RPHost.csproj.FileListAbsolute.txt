@@ -183,3 +183,5 @@ D:\ResearchProject\RPHost\RPHost\bin\Debug\netcoreapp3.0\Newtonsoft.Json.Bson.dl
 D:\ResearchProject\RPHost\RPHost\bin\Debug\netcoreapp3.0\AutoMapper.dll
 D:\ResearchProject\RPHost\RPHost\bin\Debug\netcoreapp3.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 D:\ResearchProject\RPHost\RPHost\bin\Debug\netcoreapp3.0\CloudinaryDotNet.dll
+D:\ResearchProject\RPHost\RPHost\obj\Debug\netcoreapp3.0\RPHost.csproj.CoreCompileInputs.cache
+D:\ResearchProject\RPHost\RPHost\obj\Debug\netcoreapp3.0\RPHost.genruntimeconfig.cache
