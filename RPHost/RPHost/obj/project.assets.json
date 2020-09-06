@@ -5480,11 +5480,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "d:\\ResearchProject\\RPHost\\RPHost\\RPHost.csproj",
+      "projectUniqueName": "D:\\ResearchProject\\RPHost\\RPHost\\RPHost.csproj",
       "projectName": "RPHost",
-      "projectPath": "d:\\ResearchProject\\RPHost\\RPHost\\RPHost.csproj",
+      "projectPath": "D:\\ResearchProject\\RPHost\\RPHost\\RPHost.csproj",
       "packagesPath": "C:\\Users\\adhik\\.nuget\\packages\\",
-      "outputPath": "d:\\ResearchProject\\RPHost\\RPHost\\obj\\",
+      "outputPath": "D:\\ResearchProject\\RPHost\\RPHost\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -5564,7 +5564,7 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[3.0.2, 3.0.2]"
+            "version": "[3.0.3, 3.0.3]"
           }
         ],
         "frameworkReferences": {
@@ -5575,7 +5575,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
       }
     }
   }

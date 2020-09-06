@@ -15,7 +15,7 @@
 
     <div *ngIf="loggedIn()" class="dropdown" dropdown>
       <a class="nav-link dropdown-toggle" dropdownToggle>
-        <ngx-avatar class="avatarr" src={{user?.photoPath}} size="40"></ngx-avatar> 
+        <ngx-avatar class="avatarr" src={{authService.currentUser.photoPath}} size="40"> </ngx-avatar>
         <span class="caret"></span>
       </a>
 

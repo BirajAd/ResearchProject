@@ -19,7 +19,8 @@
                           <div class="modal-body">
                               Upload your photo here:<br/>
                               <img class="card-img-top img-thumbnail" src="{{user.photoPath}}" alt="{{user.firstName}}"><br/><br/>
-                              <button>Upload</button>
+                              <input type="file" accept="image/*" (change)="onFileSelected($event)">
+                              <button type="button" (click)="onUpload()">Upload</button>
                           </div>
                       </ng-template>
                   </div>
