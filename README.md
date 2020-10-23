@@ -1,2 +1,2 @@
 # ResearchProject
-project with angular
+Project
