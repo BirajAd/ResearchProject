@@ -7,6 +7,8 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+
+
   h1,
   h2,
   h3,
@@ -255,7 +257,7 @@
 
 
   /* Responsive Styles */
-  @media screen and (max-width: 767px) {
+  /* @media screen and (max-width: 767px) {
 
     .card-container > *:not(.circle-link) ,
     .terminal {
@@ -282,4 +284,4 @@
       display: none;
       visibility: hidden;
     }
-  }
+  } */

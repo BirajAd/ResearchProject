@@ -1,11 +1,15 @@
-<mat-sidenav-container class='sidenav-container'>
+<mat-sidenav-container class='sidenav-container mr-4'>
   <mat-sidenav opened mode="side" class="leftside">
       <mat-nav-list *ngIf="loggedIn()">
-          <a mat-list-item [routerLink]="['/home']"> <mat-icon mat-list-icon>home</mat-icon> Home </a>
-          <a mat-list-item [routerLink]="['/home']"> <mat-icon mat-list-icon>notifications</mat-icon> Notifications</a>
-          <a mat-list-item [routerLink]="['/home']"> <mat-icon mat-list-icon>person</mat-icon> Profile </a>
-          <a mat-list-item [routerLink]="['/connections']"> <mat-icon mat-list-icon>people</mat-icon> Connections</a>
-          <a mat-list-item [routerLink]="['/connections']"> <mat-icon mat-list-icon>messages</mat-icon> Message </a>  
+          <div 
+            fxLayout="column"
+            fxLayoutGap="1%">
+            <a mat-list-item [routerLink]="['/home']"> <mat-icon mat-list-icon>camera</mat-icon> <h4 *ngIf="scrnSize=='lg'" mat-line>Home</h4> </a>
+            <a mat-list-item [routerLink]="['/home']"> <mat-icon mat-list-icon>notifications</mat-icon> <h4 *ngIf="scrnSize=='lg'" mat-line>Notifications </h4></a>
+            <a mat-list-item [routerLink]="['/home']"> <mat-icon mat-list-icon>person</mat-icon> <h4 *ngIf="scrnSize=='lg'" mat-line> Profile</h4> </a>
+            <a mat-list-item [routerLink]="['/connections']"> <mat-icon mat-list-icon>people</mat-icon> <h4 *ngIf="scrnSize=='lg'" mat-line> Connections</h4></a>
+            <a mat-list-item [routerLink]="['/connections']"> <mat-icon mat-list-icon>messages</mat-icon> <h4 *ngIf="scrnSize=='lg'" mat-line> Message</h4> </a>  
+          </div>
       </mat-nav-list>
   </mat-sidenav>
 

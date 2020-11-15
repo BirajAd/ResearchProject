@@ -13,13 +13,16 @@ import { User } from '../_models/user';
 export class NavComponent implements OnInit {
   user: User;
   model: any = {};
+  photoPath: string;
+  @Input() scrnSize: string;
 
   // tslint:disable-next-line: max-line-length
   constructor(private userService: UserService, public authService: AuthService, private alertify: AlertifyService,
               private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    // this.loadUser();
+    this.authService.currentPhotoPath.subscribe(photoPath => this.photoPath = photoPath);
+    console.log(this.photoPath);
   }
 
   // loadUser() {

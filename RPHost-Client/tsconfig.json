@@ -1,6 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "skipLibCheck": true, //this is a workaround for flex-layout
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
@@ -16,6 +17,7 @@
       "src/typing.d.ts"
     ],
     "lib": [
+      "es2019",
       "es2018",
       "dom"
     ]

@@ -4,6 +4,7 @@ import { UserService } from 'src/app/_services/user.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
+import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
   selector: 'app-connection-profile',
@@ -17,12 +18,14 @@ export class ConnectionProfileComponent implements OnInit {
 
 
   constructor(private userService: UserService, private alertify: AlertifyService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute, public authService: AuthService) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.user = data['user'];
     });
+
+    //test
 
     this.galleryOptions = [
       {

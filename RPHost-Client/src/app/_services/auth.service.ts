@@ -5,6 +5,7 @@ import {map} from 'rxjs/operators';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,10 +15,16 @@ export class AuthService {
   jwtHelper = new JwtHelperService();
   decodedToken: any;
   currentUser: User;
+  photoPath = new BehaviorSubject<string>('../../assets/user.png');
+  currentPhotoPath = this.photoPath.asObservable();
   // photoPath = new BehaviorSubject<string>('../../assets/user.png');
   // currentPhotoPath = this.photoPath.asObservable();
 
 constructor(private http: HttpClient) { }
+
+changeUserPhoto(photoPath: string) {
+  this.photoPath.next(photoPath);
+}
 
 login(model: any) {
   return this.http.post(this.baseUrl + 'login', model)
@@ -29,6 +36,8 @@ login(model: any) {
         localStorage.setItem('user', JSON.stringify(user.user));
         this.decodedToken = this.jwtHelper.decodeToken(user.token);
         this.currentUser = user.user;
+        console.log('hey => ' + this.currentUser.photoPath);
+        // this.changeUserPhoto(this.currentUser.photoPath);
       }
     })
   );
@@ -38,7 +47,7 @@ register(model: any){
   return this.http.post(this.baseUrl + 'register', model);
 }
 
-loggedIn(){
+loggedIn() {
   const token = localStorage.getItem('token');
   return !this.jwtHelper.isTokenExpired(token);
 }

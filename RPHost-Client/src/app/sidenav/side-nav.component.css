@@ -3,12 +3,12 @@
   top: 0;
   bottom: 0;
   left: 0;
-  right: 0;  
+  right: 0;
 }
 
 .leftside{
   margin-top: 73px;
-  margin-left: 4%;
+  margin-left: 3%;
   background: white;
 }
 
@@ -21,6 +21,10 @@
 mat-nav-list a:hover{
   background-color: rgb(231, 241, 237);
   height: 40px;
+}
+
+mat-icon{
+  color: rgb(23, 160, 76);
 }
 
 
