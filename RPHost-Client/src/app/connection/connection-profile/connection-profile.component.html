@@ -1,0 +1,169 @@
+<!-- <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+          <div class="card">
+              <img class="card-img-top img-thumbnail" src="{{user.photoPath}}" alt="{{user.firstName}}">
+              <div class="card-body">
+                <div class="columnInfo">
+                  <strong>{{user.firstName}} {{user.lastName}} </strong>
+                  <p>{{user.bio}}</p>
+                  <p> <mat-icon mat-list-icon class="placeIcon">place</mat-icon> {{user.city}}</p>
+                </div>
+
+                <div class="columnButtons">
+                  <div class="btn-group d-flex">
+                    <button class="btn btn-success w-2%">Message</button>
+                      <button class="btn btn-primary w-2%">Connect</button>
+                </div>
+                </div>
+              </div>
+          </div>
+
+          <div class="tab-panel mt-2">
+            <tabset class="profile-tabset">
+              <tab class="tabb mt-0 ml-1" heading="About {{user.firstName}}">
+                <strong>{{user.firstName}} {{user.lastName}}</strong>
+                <p>Belief: {{user.bio}}</p>
+              </tab>
+              <tab heading="Researches">
+                <p> No Researches so far </p>
+              </tab>
+              <tab heading="Comments & Feedbacks">
+                <p> No comments orfeedback so far </p>
+              </tab>
+              <tab heading="Posts">
+                <p> No Posts so far </p>
+              </tab>
+              <tab heading="Followers">
+                <p> 0 Followers </p>
+              </tab>
+              <tab heading="Following">
+                <p> Following 0 </p>
+              </tab>
+              <tab heading="Photos">
+                <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+              </tab>
+            </tabset>
+          </div>
+      </div>
+
+      <div class="col-lg-4">
+          <div class="cardSide">
+            <h1>This tab is for news: </h1>
+          </div>
+      </div>
+    </div>
+
+</div> -->
+
+<!-- New Code -->
+
+<div class="container">
+  <div class="col-lg-12">
+      <div class="card">
+        <div class="row">
+              <div class="column" id="profile">
+                <div>
+                    <img class="card-img-top img-thumbnail" id="pro_pic" src="{{user.photoPath}}" alt="{{user.firstName}}">
+                </div>
+
+                <div class="userInfo">
+                  <strong>{{user.firstName}} {{user.lastName}} </strong>
+                  <p>{{user.institute}}</p>
+                  <p class="location mt-0"> <img class="icon" src="https://img.favpng.com/24/3/1/meeting-point-icon-navigation-and-maps-icon-place-icon-png-favpng-9Ju9viuAdZeQK6Nh91F3Ugrfk.jpg" alt="">
+                  {{user.city}}, {{user.country}} </p>
+                </div>
+              </div>
+              <div class="column ml-5 mt-2">
+                <div class="row">
+                  <div class="column">
+                    <img class="userBadge" src="https://img.rankedboost.com/wp-content/uploads/2017/05/veteran-emotes-champion.png" alt="">
+                  </div>
+                  <div class="column">
+                    <div class="badgeNames">
+                        <p>4 Silver</p>
+                        <p>1 Gold</p>
+                        <p>0 Bronze</p>
+                        <p>0 Master</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="column mt-2">
+                <div class="userHighlight">
+                  <strong class="ml-5">Highlight</strong>
+                  <p class="jp mt-3">Member Since: 2010</p>
+                  <p>Last Active: Yesterday</p>
+
+                  <p><img class="viewIcon" src="https://static.vecteezy.com/system/resources/thumbnails/000/607/119/small/tujuhh-60.jpg" alt="">
+                        80K Approached</p>
+
+                  <p>99 Replies</p>
+                  <p>20 Upvotes</p>
+                </div>
+
+            </div>
+        </div>
+      </div>
+
+<!-- tab starts -->
+      <div class="tab-panel mt-3">
+        <tabset class="profile-tabset">
+          <!-- Information for display -->
+          <tab class="tabb mt-0 ml-1" heading="About {{user.firstName}}">
+            <button *ngIf="!canEdit" class="btn btn-outline-primary" type="button" name="button" (click)="makeEditable()">Follow</button>
+            <button *ngIf="canEdit" id="cancel" class="btn btn-outline-primary" type="button" name="button" (click)="makeEditable()">Cancel</button>
+
+            <div  *ngIf="!canEdit">
+                <strong>{{user.firstName}} {{user.lastName}}</strong>
+                <p>Belief: {{user.bio}}</p>
+                <p>Interest: {{user.fieldOfInterests}}</p>
+                <p>City: {{user.city}}</p>
+                <p>Country: {{user.country}}</p>
+            </div>
+
+            <!-- Editable form from here -->
+            <div *ngIf="canEdit">
+              <form #editForm="ngForm" id="editForm" (ngSubmit)="updateUser()">
+                <div class="inline-div">
+                  <textarea name="firstName" cols="15" rows="1" class="form-control" [(ngModel)]="user.firstName"></textarea>
+                </div>
+                <div class="inline-div ml-4">
+                  <textarea name="lastName" cols="15" rows="1" class="form-control" [(ngModel)]="user.lastName"></textarea>
+                </div>
+                <p class="fieldd mt-2" style="font-weight: bold;">Belief</p>
+                <textarea name="bio" cols="15" rows="8" class="form-control" [(ngModel)]="user.bio"></textarea>
+                <p class="fieldd mt-2" style="font-weight: bold;">Institute</p>
+                <textarea name="institute" cols="15" rows="8" class="form-control" [(ngModel)]="user.institute"></textarea>                 <p class="fieldd mt-2" style="font-weight: bold;">Interest: </p>
+                <textarea name="fieldOfInterests" cols="15" rows="8" class="form-control" [(ngModel)]="user.fieldOfInterests"></textarea>
+                <div class="form-inline mt-2">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" name="city" [(ngModel)]="user.city">
+
+                    <label for="country">Country</label>
+                    <input type="text" class="form-control" name="country" [(ngModel)]="user.country">
+                </div>
+                <button *ngIf="canEdit" id="save" class="btn btn-outline-primary" type="submit">Save Changes</button>
+              </form>
+            </div>
+            
+          </tab>
+          <tab heading="Researches">
+            <p> No Researches so far </p>
+          </tab>
+          <tab heading="Comments & Feedbacks">
+            <p> No comments orfeedback so far </p>
+          </tab>
+          <tab heading="Posts">
+            <p> No Posts so far </p>
+          </tab>
+
+        </tabset>
+      </div>
+  </div>
+
+</div>
+
+
+
