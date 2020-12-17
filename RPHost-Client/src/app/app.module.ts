@@ -10,6 +10,9 @@ import { RouterModule } from '@angular/router';
 import { NgxGalleryModule } from 'ngx-gallery';
 import { JwtModule } from '@auth0/angular-jwt';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+
+
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -36,6 +39,7 @@ import { UserService } from './_services/user.service';
 import { ConnectionDetailResolver } from './_resolvers/connection-detail.resolver';
 import { ConnectionListResolver } from './_resolvers/connection-list.resolver';
 import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
+
 
 
 export function tokenGetter(){
@@ -70,6 +74,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       FlexLayoutModule,
       BrowserAnimationsModule,
       BsDropdownModule.forRoot(),
+      PaginationModule.forRoot(),
       TabsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       NgxGalleryModule,
