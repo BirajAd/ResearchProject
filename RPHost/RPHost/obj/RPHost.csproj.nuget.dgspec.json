@@ -10,14 +10,11 @@
         "projectUniqueName": "D:\\ResearchProject\\RPHost\\RPHost\\RPHost.csproj",
         "projectName": "RPHost",
         "projectPath": "D:\\ResearchProject\\RPHost\\RPHost\\RPHost.csproj",
-        "packagesPath": "C:\\Users\\adhik\\.nuget\\packages\\",
+        "packagesPath": "C:\\Users\\sande\\.nuget\\packages\\",
         "outputPath": "D:\\ResearchProject\\RPHost\\RPHost\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\adhik\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\sande\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
