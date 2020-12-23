@@ -1,0 +1,86 @@
+.container-fluid {
+    padding: 1px 0%;
+    height: 51px;
+    width: 100%;
+    margin-top: 0%;
+    border-bottom: 1px solid rgb(3, 26, 75);
+    border-top: 2px solid purple;
+    flex-wrap: nowrap;
+    align-items: center;
+    text-align: center;
+}
+
+.nav-item {
+  text-align: center;
+}
+
+.container-fluid a{
+    margin-left: 4%;
+    align-items: center;
+    text-align: center;
+}
+
+.dropdown-toggle, .dropdown-item {
+    cursor: pointer;
+    
+
+}
+
+.dropdown-toggle{
+    shape-margin: 0%;
+}
+
+.dropdown-toggle::after {
+    display:none;
+}
+
+avatarr{
+    /* margin-bottom: 20%; */
+    align-items: center;
+    text-align: center;
+}
+
+.dropdown{
+    padding: 0 0px;
+    margin-right: 3%;
+}
+
+/* for search box */
+.searchContainer {
+    display: inline-flex;
+    margin-left: 1%;
+    flex: 1 1 300px;
+    position: relative;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    
+  }
+
+  input:focus,
+  select:focus,
+  textarea:focus,
+  button:focus {
+    outline: none;
+  }
+  
+  .searchIcon {
+    padding: 0.5rem;
+    font-size: 21px;
+  }
+  
+  .searchBox {
+    border: 0;
+    padding: 0.5rem 0.5rem 0.5rem 0;
+    flex: 1;
+  }
+  
+  /* .searchButton {
+    background: #538AC5;
+    border: 0;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0;
+  } */
+  
+
