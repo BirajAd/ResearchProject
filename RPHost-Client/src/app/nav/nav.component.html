@@ -1,0 +1,57 @@
+<nav class="navbar navbar-expand-md navbar-light bg-white">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['/home']">Photo</a>
+    <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/home']" *ngIf="scrnSize=='lg'">Home</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/researches']">Researches</a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/connections']"  *ngIf="scrnSize=='lg'">Connection</a>
+      </li>
+    </ul>
+
+    <!-- search box for large and medium screen -->
+    <div *ngIf="loggedIn() && (scrnSize=='lg' || scrnSize=='md')" class="searchContainer">
+      <i class="fa fa-search searchIcon" ></i>
+      <input class="searchBox" type="search" name="search" placeholder="Search...">
+      <!-- <input type="submit" value="Search" class="searchButton"> -->
+    </div>
+
+    <!-- search button for small screen -->
+    <div>
+      
+    </div>
+
+    <div *ngIf="loggedIn()" class="dropdown mb-1" dropdown>
+      <a class="nav-link dropdown-toggle" dropdownToggle>
+        <ngx-avatar class="avatarr" src={{photoPath}} size="40"> </ngx-avatar>
+        <span class="caret"></span>
+      </a>
+
+      <div class="dropdown-menu dropdown-menu-right mt-1" *dropdownMenu>
+        <a class="dropdown-item" [routerLink]="['profile/edit']"><i class="fa fa-user"></i> My Account</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" (click)="logout()"><i class="fa fa-sign-out"></i> Log out</a>
+      </div>
+
+         <!-- <a class="dropdown-toggle text-dark" dropdownToggle>
+            {{user?.lastName}}
+          </a>  -->
+          
+    </div>
+
+    <form *ngIf="!loggedIn()" #loginForm="ngForm" class="form-inline my-2 my-lg-0" (ngSubmit)="login()">
+      <input class="form-control mr-sm-2" type="text" name="username"
+        placeholder="Username" required [(ngModel)]="model.username">
+
+      <input class="form-control mr-sm-2" type="Password" name="password"
+         placeholder="Password" required [(ngModel)]="model.password">
+
+      <button [disabled]="!loginForm.valid" class="btn btn-secondary my-2 my-sm-0" type="submit">Login</button>
+    </form>
+  </div>
+ 
+</nav>
