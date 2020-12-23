@@ -1,2 +1,0 @@
-# ResearchProject
-Project
