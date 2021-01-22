@@ -1,6 +1,6 @@
 <div class="card mb-4">
   <div class="card-img-wrapper">
-    <img class="card-img-top" src="{{user.photoPath}}" alt="{{user.firstName}}">
+    <img class="card-img-top" src="{{user.photoPath || '../../../assets/user.png'}}" alt="{{user.firstName}}">
   </div>
   <div class="card-body p-1">
     <h6 class="card-title text-center mb-1"> <a [routerLink]="['/connections/', user.id]"> 

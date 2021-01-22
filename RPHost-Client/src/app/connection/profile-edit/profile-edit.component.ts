@@ -42,7 +42,8 @@ export class ProfileEditComponent implements OnInit {
     //this.http.post(url to upload to)
     this.http.post(this.baseUrl + 'users/' + this.authService.decodedToken.nameid + '/photos', fd)
         .subscribe(res => {
-            console.log(res);
+            this.authService.currentPhotoPath = res['path'];
+            this.alertify.success('Profile Updated');
         });
   }
 
@@ -60,7 +61,7 @@ export class ProfileEditComponent implements OnInit {
       this.userService.updateUser(this.authService.decodedToken.nameid, this.user).subscribe(next => {
         this.alertify.success('Profile updated Successfully');
         this.editForm.reset(this.user);
-        this.makeEditable();
+        //this.makeEditable();
       });
   }
 

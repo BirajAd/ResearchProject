@@ -11,6 +11,7 @@ using System.Security.Claims;
 using CloudinaryDotNet.Actions;
 using RPHost.Models;
 using System.Linq;
+using System;
 
 namespace RPHost.Controllers
 {
@@ -55,7 +56,7 @@ namespace RPHost.Controllers
         {
             if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
-
+            
             var userFromRepo = await _repo.GetUser(userId);
 
             var file = photoForCreationDto.File;
@@ -71,7 +72,6 @@ namespace RPHost.Controllers
                         Transformation = new Transformation()
                             .Width(500).Height(500).Crop("fill").Gravity("face")
                     };
-
                     uploadResult = _cloudinary.Upload(uploadParams);
                 }
             }
@@ -81,8 +81,22 @@ namespace RPHost.Controllers
 
             var photo = _mapper.Map<Photo>(photoForCreationDto);
 
-            if (!userFromRepo.Photos.Any(u => u.IsMain))
-                photo.IsMain = true;
+            //deletes photos of user as the upload happens
+            var photosToDelete = userFromRepo.Photos.Where(p => p.UserId == userId);
+            
+            foreach(var p in photosToDelete){
+                if (p.PublicId != null){
+                    var deleteParams = new DeletionParams(p.PublicId);
+                    var result = _cloudinary.Destroy(deleteParams);
+                    _repo.Delete(p);
+                }
+
+                if (p.PublicId == null){
+                    _repo.Delete(p);
+                }
+            }
+
+            photo.IsMain = true;
 
             userFromRepo.Photos.Add(photo);
 
@@ -91,7 +105,7 @@ namespace RPHost.Controllers
                 var photoToReturn = _mapper.Map<PhotoForReturnDto>(photo);
                 
                 return CreatedAtRoute("GetPhoto", new { userId = userId, id = photo.Id },
-                    photoToReturn);
+                    photoToReturn);              
             }
 
             return BadRequest("Couldn't add the photo");
