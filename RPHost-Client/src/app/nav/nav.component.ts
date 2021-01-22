@@ -22,7 +22,6 @@ export class NavComponent implements OnInit {
 
   ngOnInit() {
     this.authService.currentPhotoPath.subscribe(photoPath => this.photoPath = photoPath);
-    console.log(this.photoPath);
   }
 
   // loadUser() {
