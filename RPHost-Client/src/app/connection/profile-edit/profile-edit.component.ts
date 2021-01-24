@@ -50,7 +50,10 @@ export class ProfileEditComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.user = data['user'];
+      this.authService.changeUserPhoto(this.user.photoPath);
     });
+    console.log("pe -> "+this.user.photoPath);
+    // this.authService.currentPhotoPath.subscribe(photoPath => this.user.photoPath = photoPath);
   }
 
   makeEditable() {

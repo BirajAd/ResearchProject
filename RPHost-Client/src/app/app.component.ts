@@ -42,9 +42,9 @@ export class AppComponent implements OnInit{
 
     if (user) {
       this.authService.currentUser = user;
-      console.log('before => ' + user.photoPath);
+      // console.log(user);
       this.authService.changeUserPhoto(user.photoPath);
-      console.log('after => ' + user.photoPath);
+      // console.log(user.photoPath)
     }
   }
 }
