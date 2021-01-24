@@ -22,6 +22,8 @@
 
 .dropdown-toggle, .dropdown-item {
     cursor: pointer;
+    
+
 }
 
 .dropdown-toggle{
@@ -52,6 +54,7 @@ avatarr{
     border: 2px solid #ccc;
     border-radius: 5px;
     overflow: hidden;
+    
   }
 
   input:focus,

@@ -4,7 +4,7 @@
           <div class="row">
                 <div class="column" id="profile">
                   <div>
-                      <img class="card-img-top img-thumbnail" id="pro_pic" src="{{user.photoPath}}" alt="{{user.firstName}}">
+                      <img class="card-img-top img-thumbnail" id="pro_pic" src="{{user.photoPath || '../../../assets/user.png'}}" alt="{{user.firstName}}">
                       <!-- <a href="" class="button" id="changeButton">Update</a> -->
                       <!-- <button type="button" class="btn btn-primary" (click)="openModal(template)">Update</button> -->
                       <a class="button" id="changeButton" (click)="openModal(template)">Update</a>
@@ -18,7 +18,7 @@
                           </div>
                           <div class="modal-body">
                               Upload your photo here:<br/>
-                              <img class="card-img-top img-thumbnail" src="{{user.photoPath}}" alt="{{user.firstName}}"><br/><br/>
+                              <img class="card-img-top img-thumbnail" src="{{user.photoPath || '../../../assets/user.png'}}" alt="{{user.firstName}}"><br/><br/>
                               <input type="file" accept="image/*" (change)="onFileSelected($event)">
                               <button type="button" (click)="onUpload()">Upload</button>
                           </div>

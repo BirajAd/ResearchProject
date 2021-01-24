@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using RPHost.Helpers;
 using RPHost.Models;
 
 namespace RPHost.Data
@@ -45,12 +46,32 @@ namespace RPHost.Data
             return user;
         }
 
-        public async Task<IEnumerable<User>> GetUsers()
+        public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users = await _context.Users.Include(p => p.Photos).ToListAsync();
+            var users = _context.Users.Include(p => p.Photos)
+            .OrderByDescending(u => u.FirstName).AsQueryable();
+            //this filters the currently logged in user   
+            users = users.Where(u => u.Id != userParams.UserId);
 
-            return users;
+            if (!string.IsNullOrEmpty(userParams.OrderBy))
+            {
+                switch (userParams.OrderBy)
+                {
+                    case "lastActive":
+                        users = users.OrderBy(u => u.LastActive);
+                        break;
+                    default:
+                        users = users.OrderBy(u => u.FirstName);
+                        break;
+
+                }
+            }
+
+            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize) ;
+
+
         }
+
 
         public async Task<bool> SaveAll()
         {
