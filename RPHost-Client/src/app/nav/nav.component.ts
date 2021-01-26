@@ -21,7 +21,10 @@ export class NavComponent implements OnInit {
               private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    // this.photoPath = localStorage.getItem('profile');
+    // this.authService.changeUserPhoto(this.photoPath);
     this.authService.currentPhotoPath.subscribe(photoPath => this.photoPath = photoPath);
+    // this.authService.photoPath.subscribe(photoPath => console.log("current photoPath => "+photoPath));
   }
 
   // loadUser() {
@@ -49,6 +52,7 @@ export class NavComponent implements OnInit {
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
+    localStorage.removeItem('profile');
     this.authService.decodedToken = null;
     this.authService.currentUser = null;
     this.alertify.message('logged out.');

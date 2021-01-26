@@ -30,6 +30,7 @@ export class AppComponent implements OnInit{
   ngOnInit() {
     const token = localStorage.getItem('token');
     const user: User = JSON.parse(localStorage.getItem('user'));
+    let photo = "";
 
     this.media$.subscribe(mq => {
       console.log(mq[0].mqAlias);
@@ -42,9 +43,8 @@ export class AppComponent implements OnInit{
 
     if (user) {
       this.authService.currentUser = user;
-      // console.log(user);
-      this.authService.changeUserPhoto(user.photoPath);
-      // console.log(user.photoPath)
+      // this.authService.changeUserPhoto(localStorage.getItem('profile'));
+      this.authService.changeUserPhoto(localStorage.getItem('profile'));
     }
   }
 }
