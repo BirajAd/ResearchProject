@@ -23,14 +23,10 @@ export class ConnectionComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.users = data['users'].result;
       this.pagination = data['users'].pagination;
-      console.log(data['users'].pagination);
-
+      // console.log("from pagination: "+data['users'].pagination);
     });
 
     this.userParams.orderBy = 'firstName';
-    
-
-    
   }
 
   pageChanged(event: any): void {

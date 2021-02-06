@@ -13,16 +13,17 @@
   </ul>
 </div> -->
 <div class="col">
-  <div class="btn-group float-right">
+  <!-- <div class="btn-group float-right">
     <button type="button" name="orderBy"
     [(ngModel)]="userParams.orderBy" (click) = "loadUsers()" btnRadio = "firstName" class="btn btn-primary">First Name</button>
     <button type="button" name="orderBy" 
     [(ngModel)]="userParams.orderBy" (click) = "loadUsers()" btnRadio = "lastActive" class="btn btn-primary"> Last Active</button>
-  </div>
+  </div> -->
 </div>
 <div class="container mt-3">
   <div class="row">
-      <div *ngFor="let user of users" class="col-lg-3 col-md-4 col-sm-5">
+    <!--  -->
+      <div *ngFor="let user of users" class="col-lg-3 col-md-5 col-sm-12">
           <app-connection-card [user]="user"> </app-connection-card>
       </div>
   </div>
@@ -31,8 +32,6 @@
 <div class = "d-flex justify-content-center">
   <pagination [boundaryLinks]="true" 
   [totalItems]="pagination.TotalItems"
-
-
   previousText="&lsaquo;" nextText="&rsaquo;" firstText="&laquo;" lastText="&raquo;">
 
 </pagination>
