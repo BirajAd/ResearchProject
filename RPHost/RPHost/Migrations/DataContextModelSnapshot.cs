@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RPHost.Data;
 
 namespace RPHost.Migrations
@@ -74,6 +75,48 @@ namespace RPHost.Migrations
                     b.HasIndex("ResearchId");
 
                     b.ToTable("AuthorResearches");
+                });
+
+            modelBuilder.Entity("RPHost.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<DateTime?>("DateRead")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("MessageSent")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("RecipientDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("RecipientId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RecipientUsername")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("SenderDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("SenderId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SenderUsername")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("RPHost.Models.Photo", b =>
@@ -201,6 +244,21 @@ namespace RPHost.Migrations
                         .WithMany("AuthorResearches")
                         .HasForeignKey("ResearchId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RPHost.Models.Message", b =>
+                {
+                    b.HasOne("RPHost.Models.User", "Recipient")
+                        .WithMany("MessagesReceived")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("RPHost.Models.User", "Sender")
+                        .WithMany("MessagesSent")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
                 });
 
