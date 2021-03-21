@@ -55,6 +55,7 @@ namespace RPHost
             services.AddAutoMapper(typeof(ResearchRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IResearchRepository, ResearchRepository>();
+            services.AddScoped<IMessageRepository, MessageRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options => {
                 options.TokenValidationParameters = new TokenValidationParameters
