@@ -14,7 +14,7 @@ namespace RPHost.Helpers
         }
         
         public int UserId { get; set; }
-     
+        public string OrderBy { get; set; }
         
 
         

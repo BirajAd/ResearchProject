@@ -6,6 +6,11 @@ h6 {
     text-overflow: ellipsis;
 }
 
+card {
+    height: 1%;
+    width: 10%;
+}
+
 p{
     display: block;
     width: 90%;

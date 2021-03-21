@@ -23,6 +23,7 @@ export class ProfileEditComponent implements OnInit {
   modalRef: BsModalRef;
   profilePhoto: File = null;
   baseUrl = environment.apiUrl;
+  mainPhoto = "";
 
   constructor(private route: ActivatedRoute, private alertify: AlertifyService, private http: HttpClient,
               private userService: UserService, private authService: AuthService, private modalService: BsModalService) { }
@@ -42,7 +43,7 @@ export class ProfileEditComponent implements OnInit {
     //this.http.post(url to upload to)
     this.http.post(this.baseUrl + 'users/' + this.authService.decodedToken.nameid + '/photos', fd)
         .subscribe(res => {
-            this.authService.currentPhotoPath = res['path'];
+            this.authService.changeUserPhoto(res['path']); //changes profile as soon as the upload button is clicked
             this.alertify.success('Profile Updated');
         });
   }
@@ -50,6 +51,8 @@ export class ProfileEditComponent implements OnInit {
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.user = data['user'];
+      this.authService.changeUserPhoto(this.user.photoPath); //changes profile in edit page and others until (other) web pages are refreshed
+      localStorage.setItem('profile', this.user.photoPath);
     });
   }
 

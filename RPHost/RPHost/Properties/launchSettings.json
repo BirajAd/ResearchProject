@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿{
   "$schema": "http://json.schemastore.org/launchsettings.json",
   "iisSettings": {
@@ -20,3 +21,27 @@
     }
   }
 }
+=======
+﻿{
+  "$schema": "http://json.schemastore.org/launchsettings.json",
+  "iisSettings": {
+    "windowsAuthentication": false,
+    "anonymousAuthentication": true,
+    "iisExpress": {
+      "applicationUrl": "http://localhost:50709",
+      "sslPort": 44310
+    }
+  },
+  "profiles": {
+    "RPHost": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "weatherforecast",
+      "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
+>>>>>>> ed1991926c2c567cff1e6766160db2069e04f9f1
