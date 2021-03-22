@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class ConnectionProfileComponent implements OnInit {
   user: User;
+  canEdit = false;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
 
@@ -51,6 +52,10 @@ export class ConnectionProfileComponent implements OnInit {
       });
     }
     return imagePaths;
+  }
+
+  makeEditable() {
+    this.canEdit = !this.canEdit;
   }
 
   // loadUser() {
