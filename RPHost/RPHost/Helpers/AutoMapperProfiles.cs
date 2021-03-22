@@ -20,6 +20,7 @@ namespace RPHost.Helpers
             CreateMap<Photo, PhotosForDetailedDto>();
             CreateMap<UserForUpdateDto, User>();
             CreateMap<Photo, PhotoForReturnDto>();
+            CreateMap<CreateMessageDto, Message>();
             CreateMap<Message, MessageDto>()
                 .ForMember(dest => dest.SenderPhotoUrl, opt => opt.MapFrom(src => 
                     src.Sender.Photos.FirstOrDefault(x => x.IsMain).Path))

@@ -37,7 +37,7 @@ export class ProfileEditComponent implements OnInit {
     this.profilePhoto = <File>event.target.files[0];
   }
 
-  onUpload(event) {
+  onUpload() {
     const fd = new FormData();
     fd.append('File', this.profilePhoto, this.profilePhoto.name);
     //this.http.post(url to upload to)
