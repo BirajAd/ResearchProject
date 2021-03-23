@@ -14,6 +14,7 @@ namespace RPHost.Controllers
     // [ServiceFilter(typeof(LogUserActivity))]
     [Authorize]
     [Route("api/[controller]")]
+    [ApiController]
     public class MessagesController : ControllerBase
     {
         private readonly IResearchRepository _mainRepository;
@@ -26,31 +27,18 @@ namespace RPHost.Controllers
             _mainRepository = mainRepository;
         }
 
-        // [HttpPost("test")]
-        // public OkResult TestMe(int userId, UserForLoginDto aDto){
-        //     if (userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
-        //         Console.WriteLine(userId+" Unathorized user. "+int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value));
-
-        //     Console.WriteLine("username: "+aDto.Username);
-        //     var res = new Author
-        //     {
-        //         FirstName = aDto.Username
-        //     };
-        //     return Ok();
-        // }
-
         [HttpPost]
         public async Task<ActionResult> CreateMessage(CreateMessageDto createMessageDto)
         {
             var username = User.GetUsername();
             if(createMessageDto.RecipientUsername == null){
-                return BadRequest(username+"has no input."+createMessageDto.RecipientUsername);
+                return BadRequest(username+" has no input. "+createMessageDto.RecipientUsername);
             }
 
-            // if (username == createMessageDto.RecipientUsername.ToLower())
-            // {
-            //     return BadRequest("Message to yourself is not allowed");
-            // }
+            if (username == createMessageDto.RecipientUsername.ToLower())
+            {
+                return BadRequest("Message to yourself is not allowed");
+            }
 
             var sender = await _mainRepository.GetUserByUsername(username);
             var receiver = await _mainRepository.GetUserByUsername(createMessageDto.RecipientUsername);
