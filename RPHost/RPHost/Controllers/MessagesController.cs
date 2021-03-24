@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -62,6 +63,24 @@ namespace RPHost.Controllers
 
             return BadRequest("Message not sent.");
 
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> GetMessageForUser([FromQuery] MessageParams messageParams)
+        {
+            messageParams.Username = User.GetUsername();
+            var messages = await _messageRepository.GetMessageForUser(messageParams);
+            Response.AddPagination(messages.CurrentPage, messages.PageSize, messages.TotalCount, messages.TotalPages);
+
+            return Ok(messages);
+        }
+
+        [HttpGet("{username}")]
+        public async Task<ActionResult<IEnumerable<MessageDto>>> GetMessageThread(string username)
+        {
+            var currentUsername = User.GetUsername();
+
+            return Ok(await _messageRepository.GetMessageThread(currentUsername, username));
         }
     }
 }

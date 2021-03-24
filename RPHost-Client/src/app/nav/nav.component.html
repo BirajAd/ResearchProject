@@ -3,13 +3,13 @@
     <a class="navbar-brand" [routerLink]="['/home']">Photo</a>
     <ul *ngIf="loggedIn()" class="navbar-nav mr-auto">
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/home']" *ngIf="(scrnSize=='lg' || scrnSize>='xl')">Home</a>
+        <a class="nav-link" [routerLink]="['/home']" *ngIf="(scrnSize=='lg' || scrnSize=='xl')">Home</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/researches']">Researches</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/connections']"  *ngIf="(scrnSize=='lg' || scrnSize>='xl')">Connection</a>
+        <a class="nav-link" [routerLink]="['/connections']"  *ngIf="(scrnSize=='lg' || scrnSize=='xl')">Connection</a>
       </li>
     </ul>
 
