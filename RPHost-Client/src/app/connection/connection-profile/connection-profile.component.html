@@ -1,67 +1,10 @@
-<!-- <div class="container">
-    <div class="row">
-      <div class="col-lg-8">
-          <div class="card">
-              <img class="card-img-top img-thumbnail" src="{{user.photoPath}}" alt="{{user.firstName}}">
-              <div class="card-body">
-                <div class="columnInfo">
-                  <strong>{{user.firstName}} {{user.lastName}} </strong>
-                  <p>{{user.bio}}</p>
-                  <p> <mat-icon mat-list-icon class="placeIcon">place</mat-icon> {{user.city}}</p>
-                </div>
-
-                <div class="columnButtons">
-                  <div class="btn-group d-flex">
-                    <button class="btn btn-success w-2%">Message</button>
-                      <button class="btn btn-primary w-2%">Connect</button>
-                </div>
-                </div>
-              </div>
-          </div>
-
-          <div class="tab-panel mt-2">
-            <tabset class="profile-tabset">
-              <tab class="tabb mt-0 ml-1" heading="About {{user.firstName}}">
-                <strong>{{user.firstName}} {{user.lastName}}</strong>
-                <p>Belief: {{user.bio}}</p>
-              </tab>
-              <tab heading="Researches">
-                <p> No Researches so far </p>
-              </tab>
-              <tab heading="Comments & Feedbacks">
-                <p> No comments orfeedback so far </p>
-              </tab>
-              <tab heading="Posts">
-                <p> No Posts so far </p>
-              </tab>
-              <tab heading="Followers">
-                <p> 0 Followers </p>
-              </tab>
-              <tab heading="Following">
-                <p> Following 0 </p>
-              </tab>
-              <tab heading="Photos">
-                <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
-              </tab>
-            </tabset>
-          </div>
-      </div>
-
-      <div class="col-lg-4">
-          <div class="cardSide">
-            <h1>This tab is for news: </h1>
-          </div>
-      </div>
-    </div>
-
-</div> -->
-
 <!-- New Code -->
 
 <div class="container">
   <div class="col-lg-12">
       <div class="card">
         <div class="row">
+              <!-- Profile section -->
               <div class="column" id="profile">
                 <div>
                     <img class="card-img-top img-thumbnail" id="pro_pic" src="{{user.photoPath || '../../../assets/user.png'}}" alt="{{user.firstName}}">
@@ -74,7 +17,8 @@
                   {{user.city}}, {{user.country}} </p>
                 </div>
               </div>
-              <div class="column ml-5 mt-2">
+              <!-- Badge section -->
+              <div class="column ml-2 mt-2">
                 <div class="row">
                   <div class="column">
                     <img class="userBadge" src="https://img.rankedboost.com/wp-content/uploads/2017/05/veteran-emotes-champion.png" alt="">
@@ -89,7 +33,7 @@
                   </div>
                 </div>
               </div>
-
+              <!-- Highlight section -->
               <div class="column mt-2">
                 <div class="userHighlight">
                   <strong class="ml-5">Highlight</strong>
@@ -125,7 +69,7 @@
 
             <!-- Editable form from here -->
             <div *ngIf="canEdit">
-              <form #editForm="ngForm" id="editForm" (ngSubmit)="updateUser()">
+              <form #editForm="ngForm" id="editForm">
                 <div class="inline-div">
                   <textarea name="firstName" cols="15" rows="1" class="form-control" [(ngModel)]="user.firstName"></textarea>
                 </div>

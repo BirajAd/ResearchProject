@@ -15,20 +15,18 @@ export class ConnectionComponent implements OnInit {
   users: User[];
   user: User = JSON.parse(localStorage.getItem('user'));
   pagination: Pagination;
- 
+  userParams: any = {} ;
+
   constructor(private userService: UserService, private alertify: AlertifyService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.data.subscribe(data => {
       this.users = data['users'].result;
       this.pagination = data['users'].pagination;
-      console.log(data['users'].pagination);
-
+      // console.log("from pagination: "+data['users'].pagination);
     });
 
-    
-
-    
+    this.userParams.orderBy = 'firstName';
   }
 
   pageChanged(event: any): void {

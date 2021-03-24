@@ -16,6 +16,7 @@ namespace RPHost.Data
          Task<PagedList<User>> GetUsers(UserParams userParams);
 
          Task<User> GetUser(int id);
+         Task<User> GetUserByUsername(string username);
 
          Task<Photo> GetPhoto(int id);
          

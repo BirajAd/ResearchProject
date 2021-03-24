@@ -3,7 +3,7 @@ import { User } from 'src/app/_models/user';
 import { UserService } from 'src/app/_services/user.service';
 import { AlertifyService } from 'src/app/_services/alertify.service';
 import { ActivatedRoute } from '@angular/router';
-import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 import { AuthService } from 'src/app/_services/auth.service';
 
 @Component({
@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class ConnectionProfileComponent implements OnInit {
   user: User;
+  canEdit = false;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
 
@@ -51,6 +52,10 @@ export class ConnectionProfileComponent implements OnInit {
       });
     }
     return imagePaths;
+  }
+
+  makeEditable() {
+    this.canEdit = !this.canEdit;
   }
 
   // loadUser() {
