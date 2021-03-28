@@ -13,6 +13,7 @@ import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { JwtModule } from '@auth0/angular-jwt';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 
 
@@ -41,6 +42,7 @@ import { UserService } from './_services/user.service';
 import { ConnectionDetailResolver } from './_resolvers/connection-detail.resolver';
 import { ConnectionListResolver } from './_resolvers/connection-list.resolver';
 import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
+
 
 
 
@@ -85,6 +87,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       ButtonsModule.forRoot(),
       RouterModule.forRoot(appRoutes, { relativeLinkResolution: 'legacy' }),
       NgxGalleryModule,
+      InfiniteScrollModule,
       ModalModule.forRoot(),
       JwtModule.forRoot({
          config: {

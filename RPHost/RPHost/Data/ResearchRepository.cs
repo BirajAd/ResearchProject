@@ -26,6 +26,12 @@ namespace RPHost.Data
             _context.Remove(entity);
         }
 
+        public async Task<Follow> GetFollow(int userId, int recipientId)
+        {
+            return await _context.Follows.FirstOrDefaultAsync(u => 
+                u.FollowerId == userId && u.FolloweeId == recipientId);
+        }
+
         public async Task<Photo> GetPhoto(int id)
         {
             var photo = await _context.Photos.FirstOrDefaultAsync(p => p.Id == id);
@@ -46,7 +52,7 @@ namespace RPHost.Data
             return user;
         }
 
-        public async Task<User> GetUserByUsername(string username)
+         public async Task<User> GetUserByUsername(string username)
         {
             var user = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.Username == username);
             
@@ -55,9 +61,10 @@ namespace RPHost.Data
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var users = _context.Users.Include(p => p.Photos)
+          
+          var users = _context.Users.Include(p => p.Photos)
             .OrderByDescending(u => u.FirstName).AsQueryable();
-            //this filters the currently logged in user   
+            //this filters the currently logged in user  
             users = users.Where(u => u.Id != userParams.UserId);
 
             if (!string.IsNullOrEmpty(userParams.OrderBy))
@@ -74,11 +81,40 @@ namespace RPHost.Data
                 }
             }
 
-            return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize) ;
+            if (userParams.Followers)
+            {
+                var userFollowers = await GetUserFollows(userParams.UserId, userParams.Followers);
+                users = users.Where(u => userFollowers.Contains(u.Id));    
+            }
 
+            if (userParams.Followees)
+            {
+                var userFollowees = await GetUserFollows(userParams.UserId, userParams.Followees);
+                users = users.Where(u => userFollowees.Contains(u.Id));
 
+            }
+
+         return await PagedList<User>.CreateAsync(users, userParams.PageNumber, userParams.PageSize) ;
         }
 
+        private async Task<IEnumerable<int>> GetUserFollows(int id, bool followers)
+        {
+            var user = await _context.Users
+                .Include(x=> x.FollowByUsers)
+                .Include(x=> x.FollowedUsers)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (followers)
+            {
+                return user.FollowByUsers.Where(u => u.FolloweeId == id).Select(i => i.FollowerId);
+
+            }
+            else
+            {
+                return user.FollowedUsers.Where(u => u.FollowerId == id).Select(i => i.FolloweeId);
+
+            }
+        }
 
         public async Task<bool> SaveAll()
         {

@@ -21,5 +21,7 @@ namespace RPHost.Data
          Task<Photo> GetPhoto(int id);
          
          Task<Photo> GetProfilePhoto(int userId);
+
+         Task <Follow> GetFollow(int userId, int recipientId);
     }
 }

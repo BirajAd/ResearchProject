@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using RPHost.Data;
 using RPHost.Dtos;
 using RPHost.Helpers;
+using RPHost.Models;
 
 namespace RPHost.Controllers
 {
@@ -61,6 +62,34 @@ namespace RPHost.Controllers
                 return NoContent();
             
             throw new System.Exception($"Failed to save user {id}");
+        }
+
+        [HttpPost("{id}/follow/{recipientId}")]
+        public async Task<IActionResult> FollowUser(int id, int recipientId)
+        {
+             if (id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
+                return Unauthorized();  
+
+            var follow = await _repo.GetFollow(id, recipientId);
+
+            if (follow != null)
+            return BadRequest("You have already followed this user");
+
+            if (await _repo.GetUser(recipientId) == null)
+                return NotFound();
+
+            follow = new  Follow
+            {
+                FollowerId = id,
+                FolloweeId = recipientId
+            };
+
+            _repo.Add<Follow>(follow);
+
+            if (await _repo.SaveAll())
+                return Ok();
+
+            return BadRequest("Failed to follow the user");
         }
     }
 }

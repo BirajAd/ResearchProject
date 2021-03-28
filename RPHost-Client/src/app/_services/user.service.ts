@@ -52,4 +52,7 @@ setProfile(userId: number, id: number) {
     return this.http.post(this.baseUrl + '/users' + userId + '/photos/' + id + '/setProfile', {});
 }
 
+sendFollow(id: number, recipientId: number){
+  return this.http.post(this.baseUrl + 'users/' + id + '/follow/' + recipientId, {});
+}
 }

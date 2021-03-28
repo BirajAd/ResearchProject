@@ -24,5 +24,12 @@ namespace RPHost.Models
         public ICollection<Photo> Photos { get; set; }
         public ICollection<Message> MessagesSent { get; set; }
         public ICollection<Message> MessagesReceived { get; set; }
+
+        public ICollection<Follow> FollowByUsers { get; set; }
+        public ICollection<Follow> FollowedUsers { get; set; }
+
+
+
+
     }
 }
