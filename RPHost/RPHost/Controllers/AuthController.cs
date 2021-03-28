@@ -48,10 +48,6 @@ namespace RPHost.Controllers
             var userToReturn = _mapper.Map<UserForDetailedListDto>(createdUser);
 
             return CreatedAtRoute("GetUser", new {controller= "Users", id = createdUser.Id}, userToReturn);
-
-            
-
-
         }
 
 

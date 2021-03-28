@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RPHost.Data;
 
 namespace RPHost.Migrations
@@ -74,6 +75,21 @@ namespace RPHost.Migrations
                     b.HasIndex("ResearchId");
 
                     b.ToTable("AuthorResearches");
+                });
+
+            modelBuilder.Entity("RPHost.Models.Follow", b =>
+                {
+                    b.Property<int>("FollowerId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FolloweeId")
+                        .HasColumnType("int");
+
+                    b.HasKey("FollowerId", "FolloweeId");
+
+                    b.HasIndex("FolloweeId");
+
+                    b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("RPHost.Models.Photo", b =>
@@ -200,6 +216,21 @@ namespace RPHost.Migrations
                     b.HasOne("RPHost.Models.Research", "Research")
                         .WithMany("AuthorResearches")
                         .HasForeignKey("ResearchId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("RPHost.Models.Follow", b =>
+                {
+                    b.HasOne("RPHost.Models.User", "Followee")
+                        .WithMany("FollowByUsers")
+                        .HasForeignKey("FolloweeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RPHost.Models.User", "Follower")
+                        .WithMany("FollowedUsers")
+                        .HasForeignKey("FollowerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

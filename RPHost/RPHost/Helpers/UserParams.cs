@@ -14,7 +14,9 @@ namespace RPHost.Helpers
         }
         
         public int UserId { get; set; }
-     
+        public string OrderBy { get; set; }
+        public bool Followees { get; set; } = false;
+        public bool Followers { get; set; } = false;
         
 
         
