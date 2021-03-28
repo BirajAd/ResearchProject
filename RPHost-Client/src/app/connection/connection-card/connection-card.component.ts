@@ -25,8 +25,7 @@ export class ConnectionCardComponent implements OnInit {
     this.userService.sendFollow(this.authService.decodedToken.nameid, id).subscribe(data => {
       this.alertify.success('You started following ' + this.user.username);
     }, error => {
-      this.alertify.error(error);
-
+      this.alertify.error("Already followed "+this.user.username);
     });
   }
 

@@ -92,4 +92,4 @@ namespace RPHost.Controllers
             return BadRequest("Failed to follow the user");
         }
     }
-}
+} 
