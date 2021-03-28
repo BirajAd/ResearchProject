@@ -36,7 +36,6 @@ getUsers(page?, itemsPerPage?, userParams?): Observable<PaginatedResult<User[]>>
       }
       return paginatedResult;
     })
-
   );
 }
 
