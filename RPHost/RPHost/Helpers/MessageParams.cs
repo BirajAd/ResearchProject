@@ -14,6 +14,6 @@ namespace RPHost.Helpers
         }
         
         public string Username { get; set; }
-        public string Container { get; set; } = "Unread";
+        public string Container { get; set; } = "All";
     }
 }

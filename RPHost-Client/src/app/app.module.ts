@@ -41,6 +41,9 @@ import { UserService } from './_services/user.service';
 import { ConnectionDetailResolver } from './_resolvers/connection-detail.resolver';
 import { ConnectionListResolver } from './_resolvers/connection-list.resolver';
 import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
+import { MessagesResolver } from './_resolvers/messages.resolver';
+import { MessagesComponent } from './messages/messages.component';
+import { ConnectionMessagesComponent } from './connection/connection-messages/connection-messages.component';
 
 
 
@@ -68,6 +71,8 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       ConnectionCardComponent,
       ConnectionProfileComponent,
       SideNavComponent,
+      MessagesComponent,
+      ConnectionMessagesComponent,
    ],
    imports: [
       BrowserModule,
@@ -109,6 +114,7 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       UserService,
       ConnectionDetailResolver,
       ConnectionListResolver,
+      MessagesResolver,
       ProfileEditResolver,
       { provide: HAMMER_GESTURE_CONFIG, useClass: CustomHammerConfig }
 

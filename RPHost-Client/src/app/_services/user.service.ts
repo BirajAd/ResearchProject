@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../_models/user';
 import {PaginatedResult} from '../_models/pagination';
 import { map } from 'rxjs/operators';
+import { Message } from '../_models/message';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,35 @@ updateUser(id: number, user: User) {
 
 setProfile(userId: number, id: number) {
     return this.http.post(this.baseUrl + '/users' + userId + '/photos/' + id + '/setProfile', {});
+}
+
+getMessages(page?, itemsPerPage?, messageContainer?){
+  const paginatedResult: PaginatedResult<Message[]> = new PaginatedResult<Message[]>();
+
+  let params = new HttpParams();
+
+  params = params.append('MessageContainer', messageContainer);
+
+  if (page != null && itemsPerPage != null) {
+    params = params.append('pageNumber', page);
+    params = params.append('pageSize', itemsPerPage);
+  }
+
+  return this.http.get<Message[]>(this.baseUrl + 'messages', {observe: 'response', params})
+  .pipe(
+    map(response => {
+      paginatedResult.result = response.body;
+      if(response.headers.get('Pagination') !== null) {
+        paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'))
+      }
+
+      return paginatedResult;
+    })
+  )
+}
+
+getMessageThread(recipientUsername: string){
+    return this.http.get<Message[]>(this.baseUrl+recipientUsername);
 }
 
 }
