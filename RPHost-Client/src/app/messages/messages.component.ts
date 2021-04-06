@@ -6,6 +6,8 @@ import { UserService } from '../_services/user.service';
 import { AuthService } from '../_services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { AlertifyService } from '../_services/alertify.service';
+import { User } from '../_models/user';
+import { Observable } from 'rxjs';
 
 @Component({
   templateUrl: './messages.component.html',
@@ -13,16 +15,19 @@ import { AlertifyService } from '../_services/alertify.service';
 })
 export class MessagesComponent implements OnInit {
   messages: Message[];
+  username: string;
   pagination: Pagination; //refer to message resolver to customize pagesize and pageNumber
-  messageContainer = 'Unread';
+  messageContainer = 'Inbox';
 
-  constructor(private userService: UserService, private route: ActivatedRoute, private alertify: AlertifyService) {}
+  constructor(private userService: UserService, private route: ActivatedRoute, private alertify: AlertifyService,
+        private authService: AuthService) {}
 
-  ngOnInit() 
+  ngOnInit()
   {
       this.route.data.subscribe(data => {
         this.messages = data['messages'].result;
         this.pagination = data['messages'].pagination;
+        this.username = localStorage.username;
       });
   }
 
