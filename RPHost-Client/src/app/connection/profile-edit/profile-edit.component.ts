@@ -44,7 +44,8 @@ export class ProfileEditComponent implements OnInit {
     this.http.post(this.baseUrl + 'users/' + this.authService.decodedToken.nameid + '/photos', fd)
         .subscribe(res => {
             this.authService.changeUserPhoto(res['path']); //changes profile as soon as the upload button is clicked
-            this.alertify.success('Profile Updated');
+            this.modalRef.hide();
+            window.location.reload();
         });
   }
 

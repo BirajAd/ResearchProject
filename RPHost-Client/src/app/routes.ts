@@ -9,6 +9,8 @@ import { ConnectionDetailResolver } from './_resolvers/connection-detail.resolve
 import { ConnectionListResolver } from './_resolvers/connection-list.resolver';
 import { ProfileEditComponent } from './connection/profile-edit/profile-edit.component';
 import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
+import { MessagesResolver } from './_resolvers/messages.resolver';
+import { MessagesComponent } from './messages/messages.component';
 
 export const appRoutes: Routes = [
     { path: '', component: HomeComponent},
@@ -24,7 +26,9 @@ export const appRoutes: Routes = [
             { path : 'connections/:id', component: ConnectionProfileComponent,
                         resolve: {user: ConnectionDetailResolver}},
             { path: 'profile/edit', component: ProfileEditComponent,
-                        resolve: {user: ProfileEditResolver}}
+                        resolve: {user: ProfileEditResolver}},
+            { path: 'messages', component: MessagesComponent, 
+                        resolve: {messages: MessagesResolver}}
         ]
     },
     { path : '**', redirectTo: 'home', pathMatch: 'full'},

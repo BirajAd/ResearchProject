@@ -46,7 +46,8 @@ namespace RPHost.Data
             {
                 "Inbox" => query.Where(u => u.Recipient.Username == messageParams.Username),
                 "Outbox" => query.Where(u => u.Sender.Username == messageParams.Username),
-                _ => query.Where(u => u.Recipient.Username == messageParams.Username && u.DateRead == null)
+                "Unread" => query.Where(u => u.Recipient.Username == messageParams.Username && u.DateRead == null),
+                _ => query.Where(u => u.Recipient.Username == messageParams.Username || u.Sender.Username == messageParams.Username)
             };
 
             var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);

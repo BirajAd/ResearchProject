@@ -20,7 +20,7 @@
                               Upload your photo here:<br/>
                               <img class="card-img-top img-thumbnail" src="{{user.photoPath || '../../../assets/user.png'}}" alt="{{user.firstName}}"><br/><br/>
                               <input type="file" accept="image/*" (change)="onFileSelected($event)">
-                              <button type="button" (click)="onUpload()">Upload</button>
+                              <button #btn type="button" (click)="onUpload(); btn.disabled=true">Upload</button>
                           </div>
                       </ng-template>
                   </div>
