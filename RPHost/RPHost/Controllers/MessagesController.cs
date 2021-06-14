@@ -43,7 +43,6 @@ namespace RPHost.Controllers
 
             var sender = await _mainRepository.GetUserByUsername(username);
             var receiver = await _mainRepository.GetUserByUsername(createMessageDto.RecipientUsername);
-            Console.WriteLine("name: ", receiver);
 
             var message = new Message
             {

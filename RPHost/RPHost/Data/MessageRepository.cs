@@ -42,12 +42,16 @@ namespace RPHost.Data
                 OrderByDescending(m => m.MessageSent)
                 .AsQueryable();
 
+            var user = messageParams.Username;
+
             query = messageParams.Container switch
             {
                 "Inbox" => query.Where(u => u.Recipient.Username == messageParams.Username),
                 "Outbox" => query.Where(u => u.Sender.Username == messageParams.Username),
                 "Unread" => query.Where(u => u.Recipient.Username == messageParams.Username && u.DateRead == null),
-                _ => query.Where(u => u.Recipient.Username == messageParams.Username || u.Sender.Username == messageParams.Username)
+                _ => _context.Messages.FromSqlInterpolated($@"SELECT Id,SenderId,SenderUsername,RecipientId,RecipientUsername,Content,DateRead,MessageSent,SenderDeleted,RecipientDeleted
+                                                FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY LEAST(senderUsername, recipientUsername), GREATEST(senderUsername, recipientUsername)
+                                                ORDER BY MessageSent DESC) rn FROM Messages WHERE {user} IN (senderUsername, recipientUsername)) m WHERE rn = 1 ORDER BY MessageSent DESC")
             };
 
             var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);

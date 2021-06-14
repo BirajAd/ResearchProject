@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 })
 export class MessagesComponent implements OnInit {
   messages: Message[];
-  username: string;
+  user: User;
   pagination: Pagination; //refer to message resolver to customize pagesize and pageNumber
   messageContainer = 'Inbox';
 
@@ -27,7 +27,7 @@ export class MessagesComponent implements OnInit {
       this.route.data.subscribe(data => {
         this.messages = data['messages'].result;
         this.pagination = data['messages'].pagination;
-        this.username = localStorage.username;
+        this.user = this.authService.currentUser;
       });
   }
 
