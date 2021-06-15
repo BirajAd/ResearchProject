@@ -78,7 +78,7 @@ getMessages(page?, itemsPerPage?, messageContainer?){
 }
 
 getMessageThread(recipientUsername: string){
-    return this.http.get<Message[]>(this.baseUrl+recipientUsername);
+    return this.http.get<Message[]>(this.baseUrl+'messages/'+recipientUsername);
 }
 
 sendFollow(id: number, recipientId: number){

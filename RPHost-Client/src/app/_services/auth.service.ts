@@ -15,6 +15,8 @@ export class AuthService {
   jwtHelper = new JwtHelperService();
   decodedToken: any;
   currentUser: User;
+  userForMessage = new BehaviorSubject<string>('');
+  messageUser = this.userForMessage.asObservable();
   photoPath = new BehaviorSubject<string>('../../assets/user.png');
   currentPhotoPath = this.photoPath.asObservable();
   // photoPath = new BehaviorSubject<string>('../../assets/user.png');

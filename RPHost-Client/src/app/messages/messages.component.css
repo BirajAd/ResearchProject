@@ -4,13 +4,13 @@
     margin:auto;
 }
 
-img{ max-width:100%;}
+img{ max-width:100%; border-radius: 50%;}
 
 .inbox_people {
   background: #f8f8f8 none repeat scroll 0 0;
   float: left;
   overflow: hidden;
-  width: 40%; border-right:1px solid #c4c4c4;
+  width: 40%; border-right:7px solid #c4c4c4;
 }
 
 .inbox_msg {
@@ -19,39 +19,44 @@ img{ max-width:100%;}
   overflow: hidden;
 }
 
-.top_spac{ margin: 20px 0 0;}
-
-
-.recent_heading {float: left; width:40%;}
+.top_spac{ margin: 10px 0 0;}
 
 .srch_bar {
   display: inline-block;
-  text-align: right;
-  width: 60%;
+  text-align: left;
+  width: 130%;
 }
-.headind_srch{ padding:10px 29px 10px 20px; overflow:hidden; border-bottom:1px solid #c4c4c4;}
 
-.recent_heading h4 {
-  color: #05728f;
-  font-size: 21px;
-  margin: auto;
+.headind_srch{ padding:10px 29px 20px 10px; overflow:hidden; border-bottom:2px solid #c4c4c4;}
+
+.srch_bar input {       
+  width: 80%;
+  height: 40px;
+  margin: 0 auto;
+  border: none; /* <-- This thing here */
+  border:solid 1px #ccc;
+  border-radius: 25px; 
 }
-.srch_bar input{ border:1px solid #cdcdcd; border-width:0 0 1px 0; width:80%; padding:2px 0 4px 6px; background:none;}
+
 .srch_bar .input-group-addon button {
   background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
   border: medium none;
-  padding: 0;
+  padding: 10;
   color: #707070;
-  font-size: 18px;
+  font-size: 20px;
+  align-content: left;
 }
-.srch_bar .input-group-addon { margin: 0 0 0 -27px;}
+
+.srch_bar .input-group-addon { margin: 0 0 0 -420px;}
 
 .chat_ib h5{ font-size:15px; color:#464646; margin:0 0 8px 0;}
 .chat_ib h5 span{ font-size:13px; float:right;}
 .chat_ib p{ font-size:14px; color:#989898; margin:auto}
+
 .chat_img {
   float: left;
   width: 11%;
+  border-radius: 50%;
 }
 .chat_ib {
   float: left;
@@ -124,6 +129,7 @@ img{ max-width:100%;}
 }
 
 .type_msg {border-top: 1px solid #c4c4c4;position: relative;}
+
 .msg_send_btn {
   background: #05728f none repeat scroll 0 0;
   border: medium none;
@@ -138,7 +144,14 @@ img{ max-width:100%;}
   width: 33px;
 }
 .messaging { padding: 0 0 50px 0;}
+
+.recent_heading > h4 {
+  color: rgb(102, 180, 141);
+}
+
 .msg_history {
-  height: 80px;
+  height: 60px;
   overflow-y: auto;
+  margin-top: 8px;
+  border-bottom: 1px solid #05728f;
 }

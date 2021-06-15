@@ -18,6 +18,7 @@ export class MessagesComponent implements OnInit {
   user: User;
   pagination: Pagination; //refer to message resolver to customize pagesize and pageNumber
   messageContainer = 'Inbox';
+  messageUser = "gomez"; //username for the other user to see conversation thread
 
   constructor(private userService: UserService, private route: ActivatedRoute, private alertify: AlertifyService,
         private authService: AuthService) {}
@@ -44,6 +45,10 @@ export class MessagesComponent implements OnInit {
   pageChanged(event: any): void {
     this.pagination.currentPage = event.page;
     this.loadMessages();
+  }
+
+  loadUsername(aUsername){
+    this.messageUser = aUsername;
   }
 
 }

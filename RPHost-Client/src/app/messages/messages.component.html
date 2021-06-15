@@ -17,12 +17,9 @@
       <div class="inbox_msg">
         <div class="inbox_people">
           <div class="headind_srch">
-            <div class="recent_heading">
-              <h4>Recent</h4>
-            </div>
             <div class="srch_bar">
               <div class="stylish-input-group">
-                <input type="text" class="search-bar"  placeholder="Search" >
+                <input type="text" class="search-bar"  placeholder="Search for contacts" style="text-indent:35px;">
                 <span class="input-group-addon">
                 <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
                 </span> </div>
@@ -31,15 +28,17 @@
           <div class="inbox_chat">
             <div class="chat_list active_chat">
                 <div *ngFor="let message of messages" class="msg_history">
-                  <div class="chat_img"> <img [src]= "message.recipientUsername != user.username ? message.recipientPhotoUrl : message.senderPhotoUrl" alt="sunil"> </div>
-                    <div class="chat_ib">
-                      <h5> {{message.recipientUsername != user.username ? message.recipientUsername : message.senderUsername}} <span class="chat_date">{{message.messageSent | date}}</span></h5>
-                      <p> {{message.content}} </p>
-                    </div>
-                  </div>
+                      <div class="chat_img"> <img [src]= "message.recipientUsername != user.username ? message.recipientPhotoUrl : message.senderPhotoUrl" alt="sunil"> </div>
+                        <div class="chat_ib">
+                          <h5 (click)="loadUsername(message.recipientUsername != user.username ? message.recipientUsername : message.senderUsername)"> {{(message.recipientUsername != user.username ? message.recipientUsername : message.senderUsername) | titlecase}} <span class="chat_date">{{message.messageSent | date}}</span></h5>
+                          <p> {{message.content}} </p>
+                        </div>
+                      </div>
                 </div>
           </div>
         </div>
+        
+        <app-connection-messages [username]="messageUser"></app-connection-messages>
 
 <!--
         <div class="mesgs">
@@ -65,7 +64,7 @@
             </div>
           </div>
         </div>
-        
+
 -->
 
       </div>
