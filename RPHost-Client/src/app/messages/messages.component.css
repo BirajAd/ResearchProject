@@ -1,7 +1,12 @@
 .container
 {
     max-width:1170px; 
-    margin:auto;
+    margin-left:15%;
+    overflow-y: hidden;
+}
+
+html, body {
+  overflow-y: auto;
 }
 
 img{ max-width:100%; border-radius: 50%;}
@@ -17,6 +22,7 @@ img{ max-width:100%; border-radius: 50%;}
   border: 1px solid #c4c4c4;
   clear: both;
   overflow: hidden;
+  height: 820px;
 }
 
 .top_spac{ margin: 10px 0 0;}
@@ -27,7 +33,7 @@ img{ max-width:100%; border-radius: 50%;}
   width: 130%;
 }
 
-.headind_srch{ padding:10px 29px 20px 10px; overflow:hidden; border-bottom:2px solid #c4c4c4;}
+.headind_srch{ padding:10px 29px 10px 10px; overflow:hidden; border-bottom:2px solid #c4c4c4;}
 
 .srch_bar input {       
   width: 80%;
@@ -36,6 +42,7 @@ img{ max-width:100%; border-radius: 50%;}
   border: none; /* <-- This thing here */
   border:solid 1px #ccc;
   border-radius: 25px; 
+  outline: none;
 }
 
 .srch_bar .input-group-addon button {
@@ -56,23 +63,26 @@ img{ max-width:100%; border-radius: 50%;}
 .chat_img {
   float: left;
   width: 11%;
+  padding-top: 5px;
   border-radius: 50%;
 }
+
 .chat_ib {
   float: left;
-  padding: 0 0 0 15px;
+  padding-top: 6px;
+  padding-bottom: 5px;
   width: 88%;
 }
 
 .chat_people{ overflow:hidden; clear:both;}
+
 .chat_list {
   border-bottom: 1px solid #c4c4c4;
   margin: 0;
-  padding: 18px 16px 10px;
 }
 .inbox_chat { height: 550px; overflow-y: scroll;}
 
-.active_chat{ background:#ebebeb;}
+.active_chat{ background:#747171;}
 
 .incoming_msg_img {
   display: inline-block;
@@ -99,11 +109,14 @@ img{ max-width:100%; border-radius: 50%;}
   font-size: 12px;
   margin: 8px 0 0;
 }
+
 .received_withd_msg { width: 57%;}
+
 .mesgs {
   float: left;
   padding: 30px 15px 0 25px;
   width: 60%;
+  overflow: scroll;
 }
 
  .sent_msg p {
@@ -143,15 +156,26 @@ img{ max-width:100%; border-radius: 50%;}
   top: 11px;
   width: 33px;
 }
-.messaging { padding: 0 0 50px 0;}
-
-.recent_heading > h4 {
-  color: rgb(102, 180, 141);
-}
+.messaging { height: 100%; padding: 0 0 50px 0;}
 
 .msg_history {
-  height: 60px;
+  height: 70px;
   overflow-y: auto;
   margin-top: 8px;
-  border-bottom: 1px solid #05728f;
+  border-bottom: 1px;
+  padding-top: 5px;
+  padding-left: 5px;
+}
+
+.chat_ib > h5{
+  margin-left: 10px;
+}
+
+.chat_ib > p{
+  margin-left: 10px;
+}
+
+.msg_history:hover{
+  cursor:pointer;
+  background-color: #d5e6eb;
 }

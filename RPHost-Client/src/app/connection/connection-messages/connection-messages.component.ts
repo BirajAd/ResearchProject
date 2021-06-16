@@ -1,4 +1,5 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Message } from 'src/app/_models/message';
 import { User } from 'src/app/_models/user';
@@ -11,31 +12,34 @@ import { UserService } from 'src/app/_services/user.service';
   styleUrls: ['./connection-messages.component.css']
 })
 export class ConnectionMessagesComponent implements OnInit, OnChanges {
+  @ViewChild('messageForm') messageForm: NgForm;
   @Input() username:string;
   messages: Message[];
   user: User;
+  messageContent: string;
 
   constructor(private userService: UserService, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.route.data.subscribe(data => {
-      this.user = this.authService.currentUser;
-    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // console.log(changes);
-    // this.username = changes.username.currentValue;
     this.loadMessages();
     this.route.data.subscribe(data => {
       this.user = this.authService.currentUser;
     });
-    console.log(this.user.username);
   }
 
   loadMessages() {
     this.userService.getMessageThread(this.username).subscribe(messages => {
       this.messages =  messages;
+    })
+  }
+
+  sendMessage() {
+    this.userService.sendMessage(this.username, this.messageContent).subscribe(message => {
+      this.messages.push(message);
+      this.messageForm.reset();
     })
   }
 
