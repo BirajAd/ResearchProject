@@ -12,6 +12,8 @@ using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using RPHost.Helpers;
+using RPHost.GraphQL;
+using GraphQL.Server.Ui.Voyager;
 using AutoMapper;
 
 namespace RPHost
@@ -29,6 +31,9 @@ namespace RPHost
         {
             services.AddDbContext<DataContext>(x => x.UseMySql
             (Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddGraphQLServer()
+                    .AddQueryType<GraphQuery>();
 
             ConfigureServices(services);
         }
@@ -103,7 +108,14 @@ namespace RPHost
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGraphQL();
                 //endpoints.MapFallbackToController("Index", "Fallback");
+            });
+
+            app.UseGraphQLVoyager(new GraphQLVoyagerOptions()
+            {
+                GraphQLEndPoint = "/graphql",
+                Path = "/graphql-voyager"
             });
         }
     }
