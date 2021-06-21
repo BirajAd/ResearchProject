@@ -77,46 +77,19 @@ namespace RPHost.Migrations
                     b.ToTable("AuthorResearches");
                 });
 
-            modelBuilder.Entity("RPHost.Models.Message", b =>
+            modelBuilder.Entity("RPHost.Models.Follow", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("FollowerId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Content")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.Property<DateTime?>("DateRead")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("MessageSent")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<bool>("RecipientDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<int>("RecipientId")
+                    b.Property<int>("FolloweeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("RecipientUsername")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.HasKey("FollowerId", "FolloweeId");
 
-                    b.Property<bool>("SenderDeleted")
-                        .HasColumnType("tinyint(1)");
+                    b.HasIndex("FolloweeId");
 
-                    b.Property<int>("SenderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("SenderUsername")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipientId");
-
-                    b.HasIndex("SenderId");
-
-                    b.ToTable("Messages");
+                    b.ToTable("Follows");
                 });
 
             modelBuilder.Entity("RPHost.Models.Photo", b =>
@@ -247,18 +220,18 @@ namespace RPHost.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RPHost.Models.Message", b =>
+            modelBuilder.Entity("RPHost.Models.Follow", b =>
                 {
-                    b.HasOne("RPHost.Models.User", "Recipient")
-                        .WithMany("MessagesReceived")
-                        .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("RPHost.Models.User", "Followee")
+                        .WithMany("FollowByUsers")
+                        .HasForeignKey("FolloweeId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("RPHost.Models.User", "Sender")
-                        .WithMany("MessagesSent")
-                        .HasForeignKey("SenderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("RPHost.Models.User", "Follower")
+                        .WithMany("FollowedUsers")
+                        .HasForeignKey("FollowerId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

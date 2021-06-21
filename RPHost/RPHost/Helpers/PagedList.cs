@@ -32,6 +32,5 @@ namespace RPHost.Helpers
         return new PagedList<T>(items, count, pageNumber,pageSize);
     }
 
-
     }
 }

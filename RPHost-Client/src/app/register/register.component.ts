@@ -47,6 +47,8 @@ export class RegisterComponent implements OnInit {
     return g.get('password').value === g.get('confirmPassword').value ? null : { 'mismatch'  :  true};
   }
 
+ 
+
   register() {
     if (this.registerForm.valid){
       this.user = Object.assign({}, this.registerForm.value);

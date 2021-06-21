@@ -1,0 +1,47 @@
+<div class="container">
+    <div *ngIf="messages.length != 0" class="mesgs">
+        <div *ngFor="let message of messages">
+        <div *ngIf="message.senderUsername != user.username" class="incoming_msg">
+            <!-- <div class="incoming_msg_img"> <img src="{{message.senderPhotoUrl}}" alt="sunil"> </div> -->
+            <div class="received_msg">
+                <div class="received_withd_msg">
+                    <img src="{{message.senderPhotoUrl}}" alt="{{message.senderUsername}}" style="height: 40px; border-radius: 50%"> <p>{{message.content}}.</p>
+                    <span class="time_date"></span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="message.senderUsername == user.username" class="outgoing_msg">
+            <div class="sent_msg">
+
+                <div class="dropdown">
+                    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    . . .</button>
+                  
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <a class="dropdown-item" href="#">remove</a>
+                      <a class="dropdown-item" href="#">more info</a>
+                    </div>
+                  </div>
+
+                <p>{{message.content}}</p>
+                <span class="time_date"></span> </div>
+            </div>
+        </div>
+        <div class="input_msg_write">
+            <form #messageForm="ngForm" (ngSubmit)="sendMessage()" autocomplete="off" >
+                <input 
+                    name="messageContent"
+                    required
+                    [(ngModel)] = "messageContent"
+                    type="text" 
+                    class="write_msg" 
+                    placeholder="Type a message"/>
+            <!-- <button [disabled]="!messageForm.valid" class="msg_send_btn" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button> -->
+            </form>
+        </div>
+    </div>
+
+    <div *ngIf="messages.length === 0">
+        <h2>No messages selected</h2>
+    </div>
+</div>

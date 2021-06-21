@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 
 namespace RPHost.Models
 {
-    public class User
+    public class User //: IdentityUser<int>
     {
         public int Id { get; set; }
         public string Username { get; set; }
@@ -22,6 +23,15 @@ namespace RPHost.Models
         public string City { get; set; }
         public string Country { get; set; }
         public ICollection<Photo> Photos { get; set; }
+        public ICollection<Message> MessagesSent { get; set; }
+        public ICollection<Message> MessagesReceived { get; set; }
+
+        public ICollection<Follow> FollowByUsers { get; set; }
+        public ICollection<Follow> FollowedUsers { get; set; }
+        // public ICollection<AppUserRole> UserRoles { get; set; }
+
+
+
 
     }
 }
