@@ -15,25 +15,28 @@ using RPHost.Helpers;
 using RPHost.GraphQL;
 using GraphQL.Server.Ui.Voyager;
 using AutoMapper;
+using System;
 
 namespace RPHost
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IConfiguration _config;
+        public Startup(IConfiguration config)
         {
-            Configuration = configuration;
+            _config = config;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseMySql
-            (Configuration.GetConnectionString("DefaultConnection")));
+            string dbConnectionString = _config.GetConnectionString("DefaultConnection");
+            services.AddPooledDbContextFactory<DataContext>(x => x.UseMySql
+            (dbConnectionString, ServerVersion.AutoDetect(dbConnectionString)));
 
             services.AddGraphQLServer()
-                    .AddQueryType<GraphQuery>();
+                    .AddQueryType<GraphQuery>()
+                    .AddProjections()
+                    .AddFiltering();
 
             ConfigureServices(services);
         }
@@ -41,7 +44,7 @@ namespace RPHost
         public void ConfigureProductionServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer
-            (Configuration.GetConnectionString("DefaultConnection")));
+            (_config.GetConnectionString("DefaultConnection")));
 
             ConfigureServices(services);
         }
@@ -49,13 +52,13 @@ namespace RPHost
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
             services.AddControllers().AddNewtonsoftJson(opt => {
                 opt.SerializerSettings.ReferenceLoopHandling =
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
             services.AddCors();
-            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.Configure<CloudinarySettings>(_config.GetSection("CloudinarySettings"));
             services.AddTransient<Seed>();
             services.AddAutoMapper(typeof(ResearchRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
@@ -66,7 +69,7 @@ namespace RPHost
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config
                     .GetSection("Appsettings:Token").Value)),
                     ValidateIssuer = false,
                     ValidateAudience = false

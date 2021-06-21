@@ -65,9 +65,9 @@ namespace RPHost.Data
                 .Include(u => u.Sender).ThenInclude(p => p.Photos)
                 .Include(u => u.Recipient).ThenInclude(p => p.Photos)
                 .Where(m => m.Recipient.Username == currentUsername
-                && m.Sender.Username == recipientUsername
+                && m.Sender.Username == recipientUsername && m.RecipientDeleted == false
                 || m.Sender.Username == currentUsername
-                && m.Recipient.Username == recipientUsername)
+                && m.Recipient.Username == recipientUsername && m.SenderDeleted == false)
                 .OrderBy(m => m.MessageSent)
                 .ToListAsync();
             
