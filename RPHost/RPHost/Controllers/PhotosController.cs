@@ -15,7 +15,7 @@ using System;
 
 namespace RPHost.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [Route("api/users/{userId}/photos")]
     public class PhotosController : ControllerBase
     {

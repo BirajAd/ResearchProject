@@ -13,7 +13,7 @@ using RPHost.Models;
 namespace RPHost.Controllers
 {
     // [ServiceFilter(typeof(LogUserActivity))]
-    [Authorize]
+    // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MessagesController : ControllerBase
@@ -48,8 +48,8 @@ namespace RPHost.Controllers
             {
                 Sender = sender,
                 Recipient = receiver,
-                SenderUsername = sender.Username,
-                RecipientUsername = receiver.Username,
+                SenderUsername = sender.UserName,
+                RecipientUsername = receiver.UserName,
                 Content = createMessageDto.Content
             };
 
