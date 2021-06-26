@@ -46,9 +46,9 @@ namespace RPHost.Data
 
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u => u.Recipient.Username == messageParams.Username),
-                "Outbox" => query.Where(u => u.Sender.Username == messageParams.Username),
-                "Unread" => query.Where(u => u.Recipient.Username == messageParams.Username && u.DateRead == null),
+                "Inbox" => query.Where(u => u.Recipient.UserName == messageParams.Username),
+                "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username),
+                "Unread" => query.Where(u => u.Recipient.UserName == messageParams.Username && u.DateRead == null),
                 _ => _context.Messages.FromSqlInterpolated($@"SELECT Id,SenderId,SenderUsername,RecipientId,RecipientUsername,Content,DateRead,MessageSent,SenderDeleted,RecipientDeleted
                                                 FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY LEAST(senderUsername, recipientUsername), GREATEST(senderUsername, recipientUsername)
                                                 ORDER BY MessageSent DESC) rn FROM Messages WHERE {user} IN (senderUsername, recipientUsername)) m WHERE rn = 1 ORDER BY MessageSent DESC")
@@ -64,14 +64,14 @@ namespace RPHost.Data
             var messages = await _context.Messages
                 .Include(u => u.Sender).ThenInclude(p => p.Photos)
                 .Include(u => u.Recipient).ThenInclude(p => p.Photos)
-                .Where(m => m.Recipient.Username == currentUsername
-                && m.Sender.Username == recipientUsername
-                || m.Sender.Username == currentUsername
-                && m.Recipient.Username == recipientUsername)
+                .Where(m => m.Recipient.UserName == currentUsername
+                && m.Sender.UserName == recipientUsername && m.RecipientDeleted == false
+                || m.Sender.UserName == currentUsername
+                && m.Recipient.UserName == recipientUsername && m.SenderDeleted == false)
                 .OrderBy(m => m.MessageSent)
                 .ToListAsync();
             
-            var unreadMessages = messages.Where(m => m.Recipient.Username == currentUsername && m.DateRead == null).ToList();
+            var unreadMessages = messages.Where(m => m.Recipient.UserName == currentUsername && m.DateRead == null).ToList();
 
             if(unreadMessages.Any())
             {

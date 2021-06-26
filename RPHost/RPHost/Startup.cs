@@ -12,23 +12,40 @@ using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using RPHost.Helpers;
+using RPHost.GraphQL;
+using GraphQL.Server.Ui.Voyager;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using RPHost.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using RPHost.GraphQL.Messages;
+using RPHost.GraphQL.Users;
 
 namespace RPHost
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IConfiguration _config;
+        public Startup(IConfiguration config)
         {
-            Configuration = configuration;
+            _config = config;
         }
-
-        public IConfiguration Configuration { get; }
 
         public void ConfigureDevelopmentServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(x => x.UseMySql
-            (Configuration.GetConnectionString("DefaultConnection")));
+            string dbConnectionString = _config.GetConnectionString("DefaultConnection");
+            services.AddPooledDbContextFactory<DataContext>(x => x.UseMySql
+            (dbConnectionString, ServerVersion.AutoDetect(dbConnectionString)));
+
+            services.AddGraphQLServer()
+                    .AddQueryType<GraphQuery>()
+                    .AddType<MessageType>()
+                    .AddType<UserType>()
+                    .AddAuthorization()
+                    .AddProjections()
+                    .AddFiltering()
+                    .AddSorting();
 
             ConfigureServices(services);
         }
@@ -36,7 +53,7 @@ namespace RPHost
         public void ConfigureProductionServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(x => x.UseSqlServer
-            (Configuration.GetConnectionString("DefaultConnection")));
+            (_config.GetConnectionString("DefaultConnection")));
 
             ConfigureServices(services);
         }
@@ -44,29 +61,52 @@ namespace RPHost
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // services.AddDbContext<DataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddControllers().AddNewtonsoftJson(opt => {
+            IdentityBuilder builder = services.AddIdentityCore<User>(opt =>
+            {
+                opt.Password.RequireDigit = false;
+                opt.Password.RequiredLength = 4;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireUppercase = false;
+            });
+
+            builder = new IdentityBuilder(builder.UserType, typeof(Role), builder.Services);
+            builder.AddEntityFrameworkStores<DataContext>();
+            builder.AddRoleValidator<RoleValidator<Role>>();
+            builder.AddRoleManager<RoleManager<Role>>();
+            builder.AddSignInManager<SignInManager<User>>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config
+                        .GetSection("Appsettings:Token").Value)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false
+                    };
+                });
+
+            services.AddDbContext<DataContext>(x => x.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
+            services.AddControllers(options => 
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.Filters.Add(new AuthorizeFilter(policy));
+            })
+            .AddNewtonsoftJson(opt => {
                 opt.SerializerSettings.ReferenceLoopHandling =
                 Newtonsoft.Json.ReferenceLoopHandling.Ignore;
             });
+            
             services.AddCors();
-            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.Configure<CloudinarySettings>(_config.GetSection("CloudinarySettings"));
             services.AddTransient<Seed>();
             services.AddAutoMapper(typeof(ResearchRepository).Assembly);
-            services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IResearchRepository, ResearchRepository>();
             services.AddScoped<IMessageRepository, MessageRepository>();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options => {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration
-                    .GetSection("Appsettings:Token").Value)),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,7 +143,14 @@ namespace RPHost
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGraphQL();
                 //endpoints.MapFallbackToController("Index", "Fallback");
+            });
+
+            app.UseGraphQLVoyager(new GraphQLVoyagerOptions()
+            {
+                GraphQLEndPoint = "/graphql",
+                Path = "/graphql-voyager"
             });
         }
     }

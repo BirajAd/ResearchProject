@@ -8,7 +8,7 @@ using RPHost.Data;
 
 namespace RPHost.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class ResearchController : ControllerBase

@@ -81,6 +81,10 @@ getMessageThread(recipientUsername: string){
     return this.http.get<Message[]>(this.baseUrl+'messages/'+recipientUsername);
 }
 
+sendMessage(username: string, content: string){
+  return this.http.post<Message>(this.baseUrl+'messages/', {recipientUsername: username, content})
+}
+
 sendFollow(id: number, recipientId: number){
   return this.http.post(this.baseUrl + 'users/' + id + '/follow/' + recipientId, {});
 }

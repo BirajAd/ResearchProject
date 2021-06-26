@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using RPHost.Data;
+using RPHost.Models;
 
 namespace RPHost
 {
@@ -17,6 +19,7 @@ namespace RPHost
         public static void Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
+
             using (var scope = host.Services.CreateScope())
             {
 
@@ -24,8 +27,9 @@ namespace RPHost
                 try 
                 {
                     var context = Services.GetRequiredService<DataContext>();
+                    var userManager = Services.GetRequiredService<UserManager<User>>();
                     context.Database.Migrate();  
-                    Seed.SeedUsers(context);              
+                    Seed.SeedUsers(userManager);            
                 }
                 catch (Exception ex)
                 {

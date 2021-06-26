@@ -13,7 +13,7 @@ using RPHost.Models;
 namespace RPHost.Controllers
 {
     // [ServiceFilter(typeof(LogUserActivity))]
-    [Authorize]
+    // [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class MessagesController : ControllerBase
@@ -48,8 +48,8 @@ namespace RPHost.Controllers
             {
                 Sender = sender,
                 Recipient = receiver,
-                SenderUsername = sender.Username,
-                RecipientUsername = receiver.Username,
+                SenderUsername = sender.UserName,
+                RecipientUsername = receiver.UserName,
                 Content = createMessageDto.Content
             };
 
@@ -80,6 +80,33 @@ namespace RPHost.Controllers
             var currentUsername = User.GetUsername();
 
             return Ok(await _messageRepository.GetMessageThread(currentUsername, username));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteMessages(int id)
+        {
+            var username = User.GetUsername();
+
+            var message = await _messageRepository.GetMessage(id);
+
+            if(message.SenderUsername != username || message.RecipientUsername != username) 
+            {
+                return Unauthorized();
+            }
+
+            if(message.SenderUsername == username) 
+            {
+                message.SenderDeleted = true;
+            }
+
+            if(message.RecipientUsername == username) message.RecipientDeleted = true;
+
+            if(message.SenderDeleted && message.RecipientDeleted) _messageRepository.DeleteMessage(message);
+
+            if(await _messageRepository.SaveAllAsync()) return Ok();
+
+            return BadRequest("Message couldn't be deleted.");
+
         }
     }
 }
