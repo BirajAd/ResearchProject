@@ -3,8 +3,6 @@ using RPHost.Data;
 using HotChocolate;
 using HotChocolate.Data;
 using RPHost.Models;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace RPHost.GraphQL
 {
@@ -12,7 +10,6 @@ namespace RPHost.GraphQL
     {
 
         [UseDbContext(typeof(DataContext))]
-        // [UseProjection]
         [UseFiltering]
         [UseSorting]
         public IQueryable<Message> GetMessage([ScopedService] DataContext context)

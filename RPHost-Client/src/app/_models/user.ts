@@ -11,6 +11,7 @@ export interface User {
     lastActive: Date;
     country: string;
     photoPath: string; //
+    token: string;
     city?: string; //
     bio?: string; //
     fieldOfInterests?: string; //
