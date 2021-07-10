@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 
 namespace RPHost.Models
@@ -25,5 +26,10 @@ namespace RPHost.Models
         public ICollection<Follow> FollowByUsers { get; set; }
         public ICollection<Follow> FollowedUsers { get; set; }
         public ICollection<UserRole> UserRoles { get; set; }
+
+        public static implicit operator User(ClaimsPrincipal v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -6,6 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { environment } from 'src/environments/environment';
 import { User } from '../_models/user';
 import { BehaviorSubject } from 'rxjs';
+import { PresenceService } from './presence.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class AuthService {
   // photoPath = new BehaviorSubject<string>('../../assets/user.png');
   // currentPhotoPath = this.photoPath.asObservable();
 
-constructor(private http: HttpClient) { }
+constructor(private http: HttpClient, private presence: PresenceService) { }
 
 changeUserPhoto(photoPath: string) {
   this.photoPath.next(photoPath);
@@ -38,11 +39,9 @@ login(model: any) {
         localStorage.setItem('user', JSON.stringify(user.user));
         this.decodedToken = this.jwtHelper.decodeToken(user.token);
         this.currentUser = user.user;
+        this.presence.createHubConnection(this.currentUser);
         this.changeUserPhoto(this.currentUser.photoPath);
         localStorage.setItem('profile', this.currentUser.photoPath);
-        
-        // console.log('hey => ' + this.currentUser.photoPath);
-        // this.changeUserPhoto(this.currentUser.photoPath);
       }
     })
   );
@@ -51,6 +50,22 @@ login(model: any) {
 register(user: User){
   return this.http.post(this.baseUrl + 'register', user);
 }
+
+// register(model:any) {
+//   return this.http.post(this.baseUrl + 'register', model).pipe(
+//     map((response: any) => {
+//       const user = response;
+//       if (user) {
+//         localStorage.setItem('token', user.token);
+//         localStorage.setItem('user', JSON.stringify(user.user));
+//         this.currentUser = user.user;
+//         this.presence.createHubConnection(this.currentUser);
+//         this.changeUserPhoto(this.currentUser.photoPath);
+//         localStorage.setItem('profile', this.currentUser.photoPath);
+//       }
+//     })
+//   )
+// }
 
 loggedIn() {
   const token = localStorage.getItem('token');

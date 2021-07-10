@@ -30,6 +30,7 @@ export class MessagesComponent implements OnInit {
         this.messages = data['messages'].result;
         this.pagination = data['messages'].pagination;
         this.user = this.authService.currentUser;
+        this.messageUser = this.messages[0].recipientUsername;
       });
   }
 

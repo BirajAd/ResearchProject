@@ -21,6 +21,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using RPHost.GraphQL.Messages;
 using RPHost.GraphQL.Users;
+using System;
+using RPHost.SignalR;
+using System.Threading.Tasks;
 
 namespace RPHost
 {
@@ -37,9 +40,10 @@ namespace RPHost
             string dbConnectionString = _config.GetConnectionString("DefaultConnection");
             services.AddPooledDbContextFactory<DataContext>(x => x.UseMySql
             (dbConnectionString, ServerVersion.AutoDetect(dbConnectionString)));
-
+ 
             services.AddGraphQLServer()
                     .AddQueryType<GraphQuery>()
+                    .AddMutationType<Mutation>()
                     .AddType<MessageType>()
                     .AddType<UserType>()
                     .AddAuthorization()
@@ -85,6 +89,23 @@ namespace RPHost
                         ValidateIssuer = false,
                         ValidateAudience = false
                     };
+
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            Console.WriteLine("token here: "+context.Request.Query.ContainsKey("access_token"));
+                            var path = context.HttpContext.Request.Path;
+                            if(!string.IsNullOrEmpty(accessToken) && 
+                                path.StartsWithSegments("/hubs"))
+                            {
+                                context.Token = accessToken;
+                            }
+
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
             services.AddDbContext<DataContext>(x => x.UseSqlServer(_config.GetConnectionString("DefaultConnection")));
@@ -102,6 +123,8 @@ namespace RPHost
             });
             
             services.AddCors();
+            services.AddSingleton<PresenceTracker>();
+            services.AddSignalR();
             services.Configure<CloudinarySettings>(_config.GetSection("CloudinarySettings"));
             services.AddTransient<Seed>();
             services.AddAutoMapper(typeof(ResearchRepository).Assembly);
@@ -128,13 +151,17 @@ namespace RPHost
                         }
                     });
                 });
-            }
+            } 
 
             // app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x
+                .AllowCredentials()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithOrigins("http://localhost:4200"));
 
             app.UseAuthentication();
 
@@ -143,6 +170,8 @@ namespace RPHost
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<PresenceHub>("hubs/presence");
+                endpoints.MapHub<MessageHub>("hubs/message");
                 endpoints.MapGraphQL();
                 //endpoints.MapFallbackToController("Index", "Fallback");
             });

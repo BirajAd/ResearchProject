@@ -54,9 +54,7 @@ namespace RPHost.Data
 
          public async Task<User> GetUserByUsername(string username)
         {
-            var user = await _context.Users.Include(p => p.Photos).FirstOrDefaultAsync(u => u.UserName == username);
-            
-            return user;
+            return await _context.Users.Include(p => p.Photos).SingleOrDefaultAsync(u => u.UserName == username);
         }
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)

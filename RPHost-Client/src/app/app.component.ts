@@ -6,6 +6,7 @@ import { User } from './_models/user';
 // import { FlexLayout } from '@angular/flex-layout';
 import { MediaObserver, MediaChange } from '@angular/flex-layout';
 import { Observable } from 'rxjs';
+import { PresenceService } from './_services/presence.service';
 
 @Component({
   selector: 'app-root',
@@ -18,7 +19,8 @@ export class AppComponent implements OnInit{
   scrnSize: string;
   media$: Observable<MediaChange[]>;
 
-  constructor(private authService: AuthService, private modalService: BsModalService, media: MediaObserver)
+  constructor(private authService: AuthService, private modalService: BsModalService, 
+    media: MediaObserver, private presence: PresenceService)
   {
       this.media$ = media.asObservable();
   }
@@ -43,7 +45,7 @@ export class AppComponent implements OnInit{
 
     if (user) {
       this.authService.currentUser = user;
-      // this.authService.changeUserPhoto(localStorage.getItem('profile'));
+      this.presence.createHubConnection(this.authService.currentUser);
       this.authService.changeUserPhoto(localStorage.getItem('profile'));
     }
   }

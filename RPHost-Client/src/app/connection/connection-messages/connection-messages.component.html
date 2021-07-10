@@ -1,6 +1,11 @@
 <div class="container">
-    <div *ngIf="messages.length != 0" class="mesgs">
-        <div *ngFor="let message of messages">
+
+    <div *ngIf="(userService.messageThread$ | async).length === 0">
+        <h2>No messages selected</h2>
+    </div>
+
+    <div #scrollMe *ngIf="(userService.messageThread$ | async).length != 0" class="mesgs" [scrollTop]="scrollMe.scrollHeight">
+        <div *ngFor="let message of (userService.messageThread$ | async)"> 
         <div *ngIf="message.senderUsername != user.username" class="incoming_msg">
             <!-- <div class="incoming_msg_img"> <img src="{{message.senderPhotoUrl}}" alt="sunil"> </div> -->
             <div class="received_msg">
@@ -16,14 +21,14 @@
                 <div class="dropdown">
                     <button type="button" class="btn btn-sm btn-secondary dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                     . . .</button>
-                  
+                
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#">remove</a>
-                      <a class="dropdown-item" href="#">more info</a>
+                    <a class="dropdown-item" href="#">remove</a>
+                    <a class="dropdown-item" href="#">more info</a>
                     </div>
-                  </div>
+                </div>
 
-                <p>{{message.content}}</p>
+                <p>{{message.content}}<i class="fa fa-check-circle mt-2" style="float: right; text-align: center;"></i></p>
                 <span class="time_date"></span> </div>
             </div>
         </div>
@@ -39,9 +44,5 @@
             <!-- <button [disabled]="!messageForm.valid" class="msg_send_btn" type="submit"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button> -->
             </form>
         </div>
-    </div>
-
-    <div *ngIf="messages.length === 0">
-        <h2>No messages selected</h2>
     </div>
 </div>

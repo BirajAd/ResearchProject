@@ -33,10 +33,10 @@
           </div>
           <div class="inbox_chat" style="height:750px;">
             <div class="chat_list active_chat" style="background-color:white;">
-                <div (click)="loadUsername(message.recipientUsername != user.username ? message.recipientUsername : message.senderUsername)" *ngFor="let message of messages" class="msg_history">
-                      <div class="chat_img"> <img [src]= "message.recipientUsername != user.username ? message.recipientPhotoUrl : message.senderPhotoUrl" alt="sunil"> </div>
+                <div (click)="loadUsername(message.recipientUsername.toLowerCase() != user.username.toLowerCase() ? message.recipientUsername : message.senderUsername)" *ngFor="let message of messages" class="msg_history">
+                      <div class="chat_img"> <img [src]= "message.recipientUsername.toLowerCase() != user.username.toLowerCase() ? message.recipientPhotoUrl : message.senderPhotoUrl" alt="user"> </div>
                         <div class="chat_ib">
-                          <h5> {{(message.recipientUsername != user.username ? message.recipientUsername : message.senderUsername) | titlecase}} <span class="chat_date">{{message.messageSent | date}}</span></h5>
+                          <h5> {{(message.recipientUsername.toLowerCase() != user.username.toLowerCase() ? message.recipientUsername : message.senderUsername) | titlecase}} <span class="chat_date">{{message.messageSent | date}}</span></h5>
                           <p> {{message.content}} </p>
                         </div>
                       </div>

@@ -44,6 +44,7 @@ import { ProfileEditResolver } from './_resolvers/profile-edit.resolver';
 import { MessagesResolver } from './_resolvers/messages.resolver';
 import { MessagesComponent } from './messages/messages.component';
 import { ConnectionMessagesComponent } from './connection/connection-messages/connection-messages.component';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -85,6 +86,9 @@ export class CustomHammerConfig extends HammerGestureConfig  {
       FlexLayoutModule,
       BrowserAnimationsModule,
       BsDropdownModule.forRoot(),
+      ToastrModule.forRoot({
+         positionClass :'toast-bottom-right'
+       }),
       BsDatepickerModule.forRoot(),
       PaginationModule.forRoot(),
       TabsModule.forRoot(),

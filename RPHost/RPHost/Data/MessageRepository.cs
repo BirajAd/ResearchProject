@@ -40,18 +40,20 @@ namespace RPHost.Data
         {
             var query = _context.Messages.
                 OrderByDescending(m => m.MessageSent)
+                // .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
                 .AsQueryable();
 
             var user = messageParams.Username;
 
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u => u.Recipient.UserName == messageParams.Username),
-                "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username),
-                "Unread" => query.Where(u => u.Recipient.UserName == messageParams.Username && u.DateRead == null),
+                "Inbox" => query.Where(u => u.RecipientUsername == messageParams.Username && u.RecipientDeleted == false),
+                "Outbox" => query.Where(u => u.SenderUsername == messageParams.Username),
+                "Unread" => query.Where(u => u.RecipientUsername == messageParams.Username && u.DateRead == null),
                 _ => _context.Messages.FromSqlInterpolated($@"SELECT Id,SenderId,SenderUsername,RecipientId,RecipientUsername,Content,DateRead,MessageSent,SenderDeleted,RecipientDeleted
                                                 FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY LEAST(senderUsername, recipientUsername), GREATEST(senderUsername, recipientUsername)
                                                 ORDER BY MessageSent DESC) rn FROM Messages WHERE {user} IN (senderUsername, recipientUsername)) m WHERE rn = 1 ORDER BY MessageSent DESC")
+                                                // .ProjectTo<MessageDto>(_mapper.ConfigurationProvider).AsQueryable()
             };
 
             var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
@@ -69,9 +71,10 @@ namespace RPHost.Data
                 || m.Sender.UserName == currentUsername
                 && m.Recipient.UserName == recipientUsername && m.SenderDeleted == false)
                 .OrderBy(m => m.MessageSent)
+                .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
             
-            var unreadMessages = messages.Where(m => m.Recipient.UserName == currentUsername && m.DateRead == null).ToList();
+            var unreadMessages = messages.Where(m => m.RecipientUsername == currentUsername && m.DateRead == null).ToList();
 
             if(unreadMessages.Any())
             {
@@ -83,7 +86,7 @@ namespace RPHost.Data
                 await _context.SaveChangesAsync();
             }
 
-            return _mapper.Map<IEnumerable<MessageDto>>(messages);
+            return messages;
         }
 
         public async Task<bool> SaveAllAsync()

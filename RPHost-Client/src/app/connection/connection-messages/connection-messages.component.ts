@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Message } from 'src/app/_models/message';
@@ -11,20 +11,22 @@ import { UserService } from 'src/app/_services/user.service';
   templateUrl: './connection-messages.component.html',
   styleUrls: ['./connection-messages.component.css']
 })
-export class ConnectionMessagesComponent implements OnInit, OnChanges {
+export class ConnectionMessagesComponent implements OnInit, OnChanges, OnDestroy{
   @ViewChild('messageForm') messageForm: NgForm;
   @Input() username:string;
   messages: Message[];
   user: User;
   messageContent: string;
 
-  constructor(private userService: UserService, private route: ActivatedRoute, private authService: AuthService) { }
+  //userService is public right now, which is for message service, it needs to be separated
+  constructor(public userService: UserService, private route: ActivatedRoute, private authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.loadMessages();
+    // this.userService.messageThread$.subscribe(message => console.log(message));
+    this.userService.createHubConnection(this.user, this.username);
     this.route.data.subscribe(data => {
       this.user = this.authService.currentUser;
     });
@@ -37,10 +39,13 @@ export class ConnectionMessagesComponent implements OnInit, OnChanges {
   }
 
   sendMessage() {
-    this.userService.sendMessage(this.username, this.messageContent).subscribe(message => {
-      this.messages.push(message);
+    this.userService.sendMessage(this.username, this.messageContent).then(() => {
       this.messageForm.reset();
     })
+  }
+
+  ngOnDestroy(): void {
+    this.userService.stopHubConnection();
   }
 
 }
