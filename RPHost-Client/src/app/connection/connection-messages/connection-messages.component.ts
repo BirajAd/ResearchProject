@@ -25,8 +25,8 @@ export class ConnectionMessagesComponent implements OnInit, OnChanges, OnDestroy
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    // this.userService.messageThread$.subscribe(message => console.log(message));
-    this.userService.createHubConnection(this.user, this.username);
+    this.userService.stopHubConnection(); //stop the hub connection with previous active tab
+    this.userService.createHubConnection(this.user, this.username); //start the hub connection with new one now
     this.route.data.subscribe(data => {
       this.user = this.authService.currentUser;
     });

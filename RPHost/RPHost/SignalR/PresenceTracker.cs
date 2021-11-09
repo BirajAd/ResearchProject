@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,6 +7,8 @@ namespace RPHost.SignalR
 {
     public class PresenceTracker
     {
+        //username -> connection_id(a list if same user connects from ore than one device or browser)
+        //"gomez" => {"a348925Wr", "63br234908N"}
         private static readonly Dictionary<string, List<string>> onlineUsers = 
             new Dictionary<string, List<string>>();
 

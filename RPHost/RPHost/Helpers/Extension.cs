@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using RPHost.Models;
 
 namespace RPHost.Helpers
 {
@@ -44,6 +46,22 @@ namespace RPHost.Helpers
             }
 
             return age;
+        }
+
+        public static IQueryable<Message> MarkMessageAsRead(this IQueryable<Message> query, string currentUsername)
+        {
+            var unreadMessages = query.Where(m => m.DateRead == null
+                && m.RecipientUsername == currentUsername);
+
+            if (unreadMessages.Any())
+            {
+                foreach (var message in unreadMessages)
+                {
+                    message.DateRead = DateTime.UtcNow;
+                }
+            }
+
+            return query;
         }
     }
 }

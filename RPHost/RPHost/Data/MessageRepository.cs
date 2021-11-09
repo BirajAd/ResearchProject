@@ -21,6 +21,11 @@ namespace RPHost.Data
             _context = context;
         }
 
+        public void AddGroup(Group group)
+        {
+            _context.Groups.Add(group);
+        }
+
         public void AddMessage(Message message)
         {
             _context.Messages.Add(message);
@@ -29,6 +34,11 @@ namespace RPHost.Data
         public void DeleteMessage(Message message)
         {
             _context.Messages.Remove(message);
+        }
+
+        public async Task<Connection> GetConnection(string connectionId)
+        {
+            return await _context.Connections.FindAsync(connectionId);
         }
 
         public async Task<Message> GetMessage(int id)
@@ -61,6 +71,13 @@ namespace RPHost.Data
             return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
         }
 
+        public async Task<Group> GetMessageGroup(string groupName)
+        {
+            return await _context.Groups
+                .Include(x => x.Connections)
+                .FirstOrDefaultAsync(x => x.Name == groupName);
+        }
+
         public async Task<IEnumerable<MessageDto>> GetMessageThread(string currentUsername, string recipientUsername)
         {
             var messages = await _context.Messages
@@ -70,23 +87,29 @@ namespace RPHost.Data
                 && m.Sender.UserName == recipientUsername && m.RecipientDeleted == false
                 || m.Sender.UserName == currentUsername
                 && m.Recipient.UserName == recipientUsername && m.SenderDeleted == false)
+                .MarkMessageAsRead(currentUsername)
                 .OrderBy(m => m.MessageSent)
                 .ProjectTo<MessageDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
             
-            var unreadMessages = messages.Where(m => m.RecipientUsername == currentUsername && m.DateRead == null).ToList();
+            // var unreadMessages = messages.Where(m => m.RecipientUsername == currentUsername && m.DateRead == null).ToList();
 
-            if(unreadMessages.Any())
-            {
-                foreach(var msg in unreadMessages)
-                {
-                    msg.DateRead = DateTime.Now;
-                }
+            // if(unreadMessages.Any())
+            // {
+            //     foreach(var msg in unreadMessages)
+            //     {
+            //         msg.DateRead = DateTime.Now;
+            //     }
 
-                await _context.SaveChangesAsync();
-            }
+            //     await _context.SaveChangesAsync();
+            // }
 
             return messages;
+        }
+
+        public void RemoveConnection(Connection connection)
+        {
+            _context.Connections.Remove(connection);
         }
 
         public async Task<bool> SaveAllAsync()

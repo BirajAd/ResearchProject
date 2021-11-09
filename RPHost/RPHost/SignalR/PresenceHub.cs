@@ -19,7 +19,6 @@ namespace RPHost.SignalR
         public override async Task OnConnectedAsync()
         {
             var username = Context.User.GetUsername();
-            Console.WriteLine("Connected user is: "+username);
             await _tracker.UserConnected(username, Context.ConnectionId);
             await Clients.Others.SendAsync("UserOnline", username);
 

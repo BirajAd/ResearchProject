@@ -27,14 +27,6 @@ export class NavComponent implements OnInit {
     // this.authService.photoPath.subscribe(photoPath => console.log("current photoPath => "+photoPath));
   }
 
-  // loadUser() {
-  //   this.userService.getUser(this.authService.decodedToken.nameid).subscribe((user: User) => {
-  //       this.user = user;
-  //   }, error => {
-  //     this.alertify.error(error);
-  //   });
-  // }
-
   login() {
     this.authService.login(this.model).subscribe(next => {
       this.alertify.success('Logged in successfully');

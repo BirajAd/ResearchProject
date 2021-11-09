@@ -18,18 +18,18 @@
         <div *ngIf="message.senderUsername == user.username" class="outgoing_msg">
             <div class="sent_msg">
 
-                <div class="dropdown">
-                    <button type="button" class="btn btn-sm btn-secondary dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    . . .</button>
-                
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="#">remove</a>
-                    <a class="dropdown-item" href="#">more info</a>
-                    </div>
-                </div>
+                    <!-- <div class="dropdown">
+                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        ...</button>
+                    
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="#">remove</a>
+                            <a class="dropdown-item" href="#">more info</a>
+                        </div>
+                    </div> -->
 
-                <p>{{message.content}}<i class="fa fa-check-circle mt-2" style="float: right; text-align: center;"></i></p>
-                <span class="time_date"></span> </div>
+                <p class="for_msg">{{message.content}}<i *ngIf="message.dateRead != null" class="fa fa-check-circle mt-2" style="float: right; text-align: center;"></i></p>
+                <span class="time_date">{{message.dateSent}}</span>
             </div>
         </div>
         <div class="input_msg_write">
