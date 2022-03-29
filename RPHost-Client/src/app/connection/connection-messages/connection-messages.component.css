@@ -73,7 +73,7 @@
   float: left;
   padding: 30px 15px 0 25px;
   width: 60%;
-  height: 560px;
+  height: 700px;
   overflow-y: scroll;
 }
 
@@ -124,7 +124,7 @@
 }
 
 .msg_history {
-  height: 60px;
+  height: 90px;
   overflow-y: auto;
   margin-top: 8px;
   border-bottom: 1px solid #05728f;

@@ -213,6 +213,9 @@ namespace RPHost.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("ConversationIdentifier")
+                        .HasColumnType("longtext");
+
                     b.Property<DateTime?>("DateRead")
                         .HasColumnType("datetime(6)");
 

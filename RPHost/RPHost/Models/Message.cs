@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace RPHost.Models 
 {
@@ -19,6 +20,7 @@ namespace RPHost.Models
         public DateTime MessageSent { get; set; } = DateTime.Now;
         public bool SenderDeleted { get; set; }
         public bool RecipientDeleted { get; set; }
+        public string ConversationIdentifier { get; set; }
 
     }
 }

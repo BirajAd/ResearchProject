@@ -10,8 +10,9 @@ namespace RPHost.GraphQL
     {
 
         [UseDbContext(typeof(DataContext))]
-        [UseFiltering]
-        [UseSorting]
+        [UseProjection]
+        // [UseFiltering]
+        // [UseSorting]
         public IQueryable<Message> GetMessage([ScopedService] DataContext context)
         {
             return context.Messages;//.FromSqlInterpolated($@"SELECT Id,SenderId,SenderUsername,RecipientId,RecipientUsername,Content,DateRead,MessageSent,SenderDeleted,RecipientDeleted
@@ -20,7 +21,7 @@ namespace RPHost.GraphQL
         }
 
         [UseDbContext(typeof(DataContext))]
-        // [UseProjection]
+        [UseProjection]
         [UseFiltering]
         [UseSorting]
         public IQueryable<User> GetUser([ScopedService] DataContext context)

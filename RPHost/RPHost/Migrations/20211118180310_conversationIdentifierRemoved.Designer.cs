@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RPHost.Data;
-using RPHost.Models;
 
 namespace RPHost.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210703041152_MessagePrimaryKey")]
-    partial class MessagePrimaryKey
+    [Migration("20211118180310_conversationIdentifierRemoved")]
+    partial class conversationIdentifierRemoved
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -164,6 +163,24 @@ namespace RPHost.Migrations
                     b.ToTable("AuthorResearches");
                 });
 
+            modelBuilder.Entity("RPHost.Models.Connection", b =>
+                {
+                    b.Property<string>("ConnectionId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("GroupName")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Username")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("ConnectionId");
+
+                    b.HasIndex("GroupName");
+
+                    b.ToTable("Connections");
+                });
+
             modelBuilder.Entity("RPHost.Models.Follow", b =>
                 {
                     b.Property<int>("FollowerId")
@@ -177,6 +194,16 @@ namespace RPHost.Migrations
                     b.HasIndex("FolloweeId");
 
                     b.ToTable("Follows");
+                });
+
+            modelBuilder.Entity("RPHost.Models.Group", b =>
+                {
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Name");
+
+                    b.ToTable("Groups");
                 });
 
             modelBuilder.Entity("RPHost.Models.Message", b =>
@@ -476,6 +503,13 @@ namespace RPHost.Migrations
                     b.Navigation("Research");
                 });
 
+            modelBuilder.Entity("RPHost.Models.Connection", b =>
+                {
+                    b.HasOne("RPHost.Models.Group", null)
+                        .WithMany("Connections")
+                        .HasForeignKey("GroupName");
+                });
+
             modelBuilder.Entity("RPHost.Models.Follow", b =>
                 {
                     b.HasOne("RPHost.Models.User", "Followee")
@@ -542,6 +576,11 @@ namespace RPHost.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("RPHost.Models.Group", b =>
+                {
+                    b.Navigation("Connections");
                 });
 
             modelBuilder.Entity("RPHost.Models.Research", b =>

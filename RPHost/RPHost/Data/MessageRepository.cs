@@ -28,6 +28,9 @@ namespace RPHost.Data
 
         public void AddMessage(Message message)
         {
+            bool determiner = message.SenderUsername.ToLower().ToString().CompareTo(message.RecipientUsername.ToLower().ToString()) < 0;
+            message.ConversationIdentifier = determiner ? message.SenderUsername.ToLower().ToString()+"_"+message.RecipientUsername.ToLower().ToString() : message.RecipientUsername.ToLower().ToString()+"_"+message.SenderUsername.ToLower().ToString();
+            Console.WriteLine("message: "+message.SenderUsername.ToString()+"=>"+message.ConversationIdentifier.ToString());
             _context.Messages.Add(message);
         }
 
@@ -60,13 +63,16 @@ namespace RPHost.Data
                 "Inbox" => query.Where(u => u.RecipientUsername == messageParams.Username && u.RecipientDeleted == false),
                 "Outbox" => query.Where(u => u.SenderUsername == messageParams.Username),
                 "Unread" => query.Where(u => u.RecipientUsername == messageParams.Username && u.DateRead == null),
-                _ => _context.Messages.FromSqlInterpolated($@"SELECT Id,SenderId,SenderUsername,RecipientId,RecipientUsername,Content,DateRead,MessageSent,SenderDeleted,RecipientDeleted
-                                                FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY LEAST(senderUsername, recipientUsername), GREATEST(senderUsername, recipientUsername)
-                                                ORDER BY MessageSent DESC) rn FROM Messages WHERE {user} IN (senderUsername, recipientUsername)) m WHERE rn = 1 ORDER BY MessageSent DESC")
+                _ => _context.Messages.FromSqlInterpolated($@"SELECT m.* FROM `messages` m LEFT JOIN `messages` b
+                                                            ON m.ConversationIdentifier = b.ConversationIdentifier AND m.MessageSent < b.MessageSent
+                                                            WHERE b.MessageSent is NULL AND (m.SenderUsername = {user} or m.RecipientUsername = {user})")
+                // _context.Messages.FromSqlInterpolated($@"SELECT Id,SenderId,SenderUsername,RecipientId,RecipientUsername,Content,DateRead,MessageSent,SenderDeleted,RecipientDeleted
+                //                                 FROM (SELECT *, ROW_NUMBER() OVER (PARTITION BY LEAST(senderUsername, recipientUsername), GREATEST(senderUsername, recipientUsername)
+                //                                 ORDER BY MessageSent DESC) rn FROM Messages WHERE {user} IN (senderUsername, recipientUsername)) m WHERE rn = 1 ORDER BY MessageSent DESC")
                                                 // .ProjectTo<MessageDto>(_mapper.ConfigurationProvider).AsQueryable()
             };
 
-            var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
+            var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);  
 
             return await PagedList<MessageDto>.CreateAsync(messages, messageParams.PageNumber, messageParams.PageSize);
         }

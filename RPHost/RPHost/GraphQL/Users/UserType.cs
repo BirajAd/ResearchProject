@@ -42,12 +42,6 @@ namespace RPHost.GraphQL.Users
                 .Field(u => u.AccessFailedCount).Ignore();
 
             descriptor
-                .Field(u => u.MessagesSent).Ignore();
-
-            descriptor
-                .Field(u => u.MessagesReceived).Ignore();
-
-            descriptor
                 .Field(u => u.FollowByUsers).Ignore();
             
             descriptor
@@ -56,19 +50,45 @@ namespace RPHost.GraphQL.Users
             descriptor
                 .Field(u => u.UserRoles).Ignore();
 
-            descriptor
-                .Field(u => u.Photos)
-                .ResolveWith<Resolvers>(u => u.GetPhotos(default!, default!))
-                .UseDbContext<DataContext>()
-                .Description("List of photos");
+            // descriptor
+            //     .Field(u => u.Photos)
+            //     .ResolveWith<Resolvers>(u => u.GetPhotos(default!, default!))
+            //     .UseDbContext<DataContext>()
+            //     .Description("List of photos");
+
+            // descriptor
+            //     .Field(u => u.MessagesReceived)
+            //     .ResolveWith<Resolvers>(u => u.SentMessages(default!, default!))
+            //     .UseDbContext<DataContext>()
+            //     .Description("sent messages");
+
+            // descriptor
+            //     .Field(u => u.MessagesReceived)
+            //     .ResolveWith<Resolvers>(u => u.ReceivedMessages(default!, default!))
+            //     .UseDbContext<DataContext>()
+            //     .Description("received messages");
         }
 
         private class Resolvers
         {
-            public IQueryable<Photo> GetPhotos(User user, [ScopedService] DataContext context)
+            // public IQueryable<Photo> GetPhotos(User user, [ScopedService] DataContext context)
+            // {
+            //     return context.Photos.Where(p => p.UserId == user.Id);
+            // }
+
+            // public IQueryable<Message> SentMessages(User user, [ScopedService] DataContext context)
+            // {
+            //     return context.Messages.Where(m => m.Sender.Id == user.Id);
+            // }
+
+            // public IQueryable<Message> ReceivedMessages(User user, [ScopedService] DataContext context)
+            // {
+            //     return context.Messages.Where(m => m.Recipient.Id == user.Id);
+            }
+
+            public IQueryable<Message> AllMessages(User user, [ScopedService] DataContext context)
             {
-                return context.Photos.Where(p => p.UserId == user.Id);
+                return context.Messages.Where(m => m.Recipient.Id == user.Id && m.Sender.Id == user.Id);
             }
         }
-    }
 }
